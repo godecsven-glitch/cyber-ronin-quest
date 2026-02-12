@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form Test - Cyber Ronin Quest</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #1a1a1a;
+            color: #fff;
+        }
+        h1 {
+            color: #00d9ff;
+        }
+        .form-field {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #00d9ff;
+        }
+        input {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #00d9ff;
+            background: #2a2a2a;
+            color: #fff;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        button {
+            background: linear-gradient(135deg, #00d9ff, #ff00ff);
+            color: #fff;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            width: 100%;
+        }
+        button:hover {
+            opacity: 0.9;
+        }
+        .success {
+            background: #00ff00;
+            color: #000;
+            padding: 20px;
+            border-radius: 4px;
+            margin-top: 20px;
+            display: none;
+        }
+        .error {
+            background: #ff0000;
+            color: #fff;
+            padding: 20px;
+            border-radius: 4px;
+            margin-top: 20px;
+            display: none;
+        }
+        .info {
+            background: #333;
+            padding: 15px;
+            border-left: 4px solid #00d9ff;
+            margin-bottom: 20px;
+        }
+        pre {
+            background: #000;
+            padding: 10px;
+            border-radius: 4px;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>🧪 Form Test Page</h1>
+
+    <div class="info">
+        <strong>Testing Web3Forms Integration</strong><br>
+        Access Key: 7126317f-d6eb-4d40-b7e2-00b5b6c05273<br>
+        Email: godecsven@gmail.com
+    </div>
+
+    <form id="testForm" action="https://api.web3forms.com/submit" method="POST">
+        <input type="hidden" name="access_key" value="7126317f-d6eb-4d40-b7e2-00b5b6c05273">
+        <input type="hidden" name="subject" value="TEST: Cyber Ronin Quest Waitlist Signup">
+        <input type="checkbox" name="botcheck" style="display: none;">
+
+        <div class="form-field">
+            <label for="name">Name</label>
+            <input type="text" id="name" name="name" value="Test User" required>
+        </div>
+
+        <div class="form-field">
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" value="godecsven@gmail.com" required>
+        </div>
+
+        <button type="submit">TEST FORM SUBMISSION</button>
+    </form>
+
+    <div id="successMessage" class="success">
+        <h3>✅ SUCCESS!</h3>
+        <p>Form submitted successfully!</p>
+        <p><strong>Check your email:</strong> godecsven@gmail.com</p>
+        <p>Subject: "TEST: Cyber Ronin Quest Waitlist Signup"</p>
+    </div>
+
+    <div id="errorMessage" class="error">
+        <h3>❌ ERROR</h3>
+        <p id="errorText"></p>
+    </div>
+
+    <div id="responseData" style="margin-top: 20px; display: none;">
+        <h3>Response Data:</h3>
+        <pre id="responseJson"></pre>
+    </div>
+
+    <script>
+        const form = document.getElementById('testForm');
+        const successMessage = document.getElementById('successMessage');
+        const errorMessage = document.getElementById('errorMessage');
+        const errorText = document.getElementById('errorText');
+        const responseData = document.getElementById('responseData');
+        const responseJson = document.getElementById('responseJson');
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            // Hide previous messages
+            successMessage.style.display = 'none';
+            errorMessage.style.display = 'none';
+            responseData.style.display = 'none';
+
+            const formData = new FormData(form);
+
+            try {
+                console.log('Submitting form...');
+
+                const response = await fetch('https://api.web3forms.com/submit', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                const data = await response.json();
+
+                console.log('Response:', data);
+                responseJson.textContent = JSON.stringify(data, null, 2);
+                responseData.style.display = 'block';
+
+                if (data.success) {
+                    successMessage.style.display = 'block';
+                } else {
+                    errorText.textContent = data.message || 'Unknown error occurred';
+                    errorMessage.style.display = 'block';
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                errorText.textContent = `Network error: ${error.message}`;
+                errorMessage.style.display = 'block';
+            }
+        });
+    </script>
+</body>
+</html>
