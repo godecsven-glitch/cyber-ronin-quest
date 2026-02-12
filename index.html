@@ -500,12 +500,10 @@
             <h3>Join the Founding Guild</h3>
             <p>The path opens soon.</p>
 
-            <form name="CyberRoninQuest" method="POST" data-netlify="true" netlify-honeypot="bot-field"
-                id="waitlistForm">
-                <input type="hidden" name="form-name" value="CyberRoninQuest">
-                <p class="hidden">
-                    <label>Don't fill: <input name="bot-field" /></label>
-                </p>
+            <form action="https://formspree.io/f/xwpkklgb" method="POST" id="waitlistForm">
+                <input type="hidden" name="_subject" value="New Cyber Ronin Quest Waitlist Signup">
+                <input type="hidden" name="_next" value="https://cyberronin.quest#success">
+                <input type="text" name="_gotcha" style="display:none">
 
                 <div class="form-field">
                     <label for="name">Name</label>
