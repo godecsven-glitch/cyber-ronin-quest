@@ -111,7 +111,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Form submission
     if (waitlistForm) {
-        waitlistForm.addEventListener('submit', (e) => {
+        waitlistForm.addEventListener('submit', async (e) => {
             e.preventDefault();
             const btn = waitlistForm.querySelector('button[type="submit"]');
             const originalText = btn.innerText;
@@ -119,20 +119,27 @@ document.addEventListener('DOMContentLoaded', () => {
             btn.disabled = true;
 
             const formData = new FormData(waitlistForm);
-            fetch('/', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                body: new URLSearchParams(formData).toString()
-            })
-            .then(() => {
-                waitlistForm.style.display = 'none';
-                successMessage.classList.remove('hidden');
-            })
-            .catch(() => {
+
+            try {
+                const response = await fetch('https://api.web3forms.com/submit', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    waitlistForm.style.display = 'none';
+                    successMessage.classList.remove('hidden');
+                } else {
+                    throw new Error(data.message || 'Submission failed');
+                }
+            } catch (error) {
+                console.error('Form error:', error);
                 btn.innerText = originalText;
                 btn.disabled = false;
-                alert('Failed. Please try again.');
-            });
+                alert('Failed to submit. Please try again.');
+            }
         });
     }
 
