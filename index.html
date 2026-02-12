@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="A coordinated multi-agent AI system that replaces fragmented creative and production workflows. Six specialized agents handle strategy, execution, and delivery—24/7, no context switching.">
+    <title>Cyber Ronin Quest | AI Agents for Creators & Production Teams</title>
+    <link rel="canonical" href="https://cyberronin.quest/">
+    <link rel="icon" href="/favicon.ico">
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Noto+Serif+JP:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+        rel="stylesheet">
+
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Open Graph / Social Sharing -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://cyberronin.quest/">
+    <meta property="og:site_name" content="Cyber Ronin Quest">
+    <meta property="og:title" content="Cyber Ronin Quest | AI Agents for Creators & Production Teams">
+    <meta property="og:description"
+        content="Six coordinated AI agents for creators, agencies, and enterprises. A multi-agent AI platform for creative production, strategy, and execution — replacing fragmented tools with a shared, context-aware workflow.">
+    <meta property="og:image" content="https://cyberronin.quest/og-image.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="Cyber Ronin Quest - AI Agents for Creators">
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="https://cyberronin.quest/">
+    <meta name="twitter:title" content="Cyber Ronin Quest | AI Agents for Creators & Production Teams">
+    <meta name="twitter:description"
+        content="Six coordinated AI agents for creators, agencies, and enterprises. A multi-agent AI platform for creative production, strategy, and execution — replacing fragmented tools with a shared, context-aware workflow.">
+    <meta name="twitter:image" content="https://cyberronin.quest/og-image.png">
+    <meta name="twitter:image:alt" content="Cyber Ronin Quest - AI Agents for Creators">
+</head>
+
+<body>
+    <!-- Paper Grain Overlay -->
+    <div class="grain-overlay"></div>
+    
+    <!-- Ink Wash Background -->
+    <div class="ink-wash-bg">
+        <div class="ink-spot spot-1"></div>
+        <div class="ink-spot spot-2"></div>
+        <div class="ink-spot spot-3"></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="nav-bar" id="navbar">
+        <div class="container nav-inner">
+            <a href="/" class="logo">
+                <span class="logo-symbol">◯</span>
+                <span>CYBER RONIN</span>
+            </a>
+            <div class="desktop-links">
+                <a href="#problem" class="nav-link">Challenge</a>
+                <a href="#agents" class="nav-link">The Clan</a>
+                <a href="#features" class="nav-link">Power</a>
+                <a href="#pricing" class="nav-link">Pricing</a>
+            </div>
+            <div class="nav-actions">
+                <button class="btn-waitlist mobile-hide" id="openWaitlist">JOIN THE WAITLIST</button>
+                <button class="mobile-menu-toggle" id="menuToggle" aria-label="Toggle Menu">
+                    <i data-lucide="menu"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu Overlay (Shoji Door) -->
+    <div class="mobile-menu" id="mobileMenu">
+        <div class="mobile-menu-panel">
+            <button class="menu-close" id="menuClose">
+                <i data-lucide="x"></i>
+            </button>
+            <div class="mobile-nav-links">
+                <a href="#problem" class="mobile-nav-link">Challenge</a>
+                <a href="#agents" class="mobile-nav-link">The Clan</a>
+                <a href="#features" class="mobile-nav-link">Power</a>
+                <a href="#pricing" class="mobile-nav-link">Pricing</a>
+            </div>
+            <button class="btn-primary" id="mobileWaitlist">JOIN THE WAITLIST</button>
+        </div>
+    </div>
+
+    <!-- Hero Section -->
+    <header class="hero">
+        <div class="container hero-content">
+            <div class="tokyo-quote reveal-text">"A path opens to those who are honest." — Tokyo Vice</div>
+            <div class="hero-badge reveal-badge">六人衆</div>
+            <h1 class="hero-title">
+                <span class="title-line reveal-line">Honor Meets</span>
+                <span class="title-line reveal-line accent">Intelligence</span>
+            </h1>
+            <p class="hero-tagline reveal-text">Six coordinated AI agents for creators, agencies, and enterprises.</p>
+            <p class="hero-sub reveal-text">A multi-agent AI platform for creative production, strategy, and execution — replacing
+                fragmented tools with a shared, context-aware workflow.</p>
+            <div class="tokyo-quote hero-closer reveal-text">"Create with structure. Execute with honor." — Cyber Ronin</div>
+            <div class="hero-actions reveal-text">
+                <button class="btn-primary" id="heroWaitlist">JOIN THE WAITLIST</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- PROBLEM SECTION -->
+    <section id="problem" class="section-pad">
+        <div class="container">
+            <div class="section-header scroll-reveal">
+                <h2>The Invisible Enemy</h2>
+                <p class="reality-bridge">Fragmented tools. Isolated AI systems. Constant context switching.<br>
+                    Deep focus is destroyed before the work even begins.</p>
+            </div>
+
+            <div class="grid-3">
+                <div class="problem-card scroll-reveal" data-delay="0">
+                    <div class="problem-icon">
+                        <div class="chaos-symbol"></div>
+                    </div>
+                    <h3>Cognitive Overload</h3>
+                    <p>Modern work demands 15+ apps.<br>
+                        Context switches every three minutes.<br>
+                        Focus doesn't survive.</p>
+                </div>
+                <div class="problem-card scroll-reveal" data-delay="100">
+                    <div class="problem-icon">
+                        <div class="fragment-symbol"></div>
+                    </div>
+                    <h3>Fragmented Workflows</h3>
+                    <p>Your work lives everywhere.<br>
+                        Your workflow lives nowhere.</p>
+                </div>
+                <div class="problem-card scroll-reveal" data-delay="200">
+                    <div class="problem-icon">
+                        <div class="disconnect-symbol"></div>
+                    </div>
+                    <h3>AI Tool Chaos</h3>
+                    <p>ChatGPT for writing. Kling 3.0 for video. Nano Banana for images. Claude Code for code.<br>
+                        Each tool isolated. None aware of your full context.</p>
+                </div>
+            </div>
+
+            <div class="quote-card scroll-reveal">
+                <p>"The average knowledge worker spends 2.5 hours per day just switching between applications. That's
+                    30% of your productive life lost to digital chaos."</p>
+                <cite>— Harvard Business Review, 2024</cite>
+            </div>
+        </div>
+    </section>
+
+    <!-- KARATE KID QUOTE 1 -->
+    <section class="quote-section">
+        <div class="container">
+            <div class="karate-quote scroll-reveal">"Wax on, wax off." — Mr. Miyagi</div>
+        </div>
+    </section>
+
+    <!-- AGENTS SECTION -->
+    <section id="agents" class="section-pad dark-section">
+        <div class="container">
+            <div class="section-title scroll-reveal">
+                <div class="title-accent"></div>
+                <h2>The Six Warriors</h2>
+                <p class="subtitle">Each name carries meaning. Each agent embodies purpose.</p>
+            </div>
+
+            <!-- SHOGUN -->
+            <div class="shogun-card agent-card clickable-card scroll-reveal" onclick="openAgentModal('shogun')">
+                <div class="agent-symbol shogun-symbol">
+                    <div class="rising-sun"></div>
+                </div>
+                <div class="agent-content">
+                    <h3>SHOGUN</h3>
+                    <div class="agent-meaning">Supreme Commander</div>
+                    <p class="agent-desc">The master strategist. Analyzes intent, delegates with precision, maintains
+                        perfect synchronization across all agents.</p>
+                    <div class="click-hint">See Expertise →</div>
+                </div>
+            </div>
+
+            <!-- THE FIVE -->
+            <div class="grid-agents">
+                <!-- RYU -->
+                <div class="agent-card clickable-card scroll-reveal" data-delay="0" onclick="openAgentModal('ryu')">
+                    <div class="agent-symbol ryu-symbol">
+                        <div class="dragon-wave"></div>
+                    </div>
+                    <div class="agent-content">
+                        <h4>RYU</h4>
+                        <div class="agent-meaning">The Dragon • Security & Code</div>
+                        <p>Power incarnate. Transforms raw code into elegant architectures. The dragon masters all
+                            elements of development.</p>
+                        <div class="click-hint">See Expertise →</div>
+                    </div>
+                </div>
+
+                <!-- AKIRA -->
+                <div class="agent-card clickable-card scroll-reveal" data-delay="100" onclick="openAgentModal('akira')">
+                    <div class="agent-symbol akira-symbol">
+                        <div class="sun-rays"></div>
+                    </div>
+                    <div class="agent-content">
+                        <h4>AKIRA</h4>
+                        <div class="agent-meaning">Bright & Clear • Data & Strategy</div>
+                        <p>Illumination through chaos. Sees patterns invisible to others. Transforms darkness into
+                            crystal clarity.</p>
+                        <div class="click-hint">See Expertise →</div>
+                    </div>
+                </div>
+
+                <!-- HANA -->
+                <div class="agent-card clickable-card scroll-reveal" data-delay="200" onclick="openAgentModal('hana')">
+                    <div class="agent-symbol hana-symbol">
+                        <div class="cherry-blossom"></div>
+                    </div>
+                    <div class="agent-content">
+                        <h4>HANA</h4>
+                        <div class="agent-meaning">The Flower • Creative & Design</div>
+                        <p>Delicate strength. Beauty with purpose. Transforms pixels into experiences that resonate
+                            deeply.</p>
+                        <div class="click-hint">See Expertise →</div>
+                    </div>
+                </div>
+
+                <!-- KAITO -->
+                <div class="agent-card clickable-card scroll-reveal" data-delay="0" onclick="openAgentModal('kaito')">
+                    <div class="agent-symbol kaito-symbol">
+                        <div class="ocean-wave"></div>
+                    </div>
+                    <div class="agent-content">
+                        <h4>KAITO</h4>
+                        <div class="agent-meaning">Ocean Navigator • Operations</div>
+                        <p>Guides through vast complexity. Navigates projects through turbulent waters to safe harbors.
+                        </p>
+                        <div class="click-hint">See Expertise →</div>
+                    </div>
+                </div>
+
+                <!-- AIKO -->
+                <div class="agent-card clickable-card scroll-reveal" data-delay="100" onclick="openAgentModal('aiko')">
+                    <div class="agent-symbol aiko-symbol">
+                        <div class="harmony-circles"></div>
+                    </div>
+                    <div class="agent-content">
+                        <h4>AIKO</h4>
+                        <div class="agent-meaning">Beloved Connection • Communications</div>
+                        <p>Creates harmony through words. Bridges minds and hearts. Transforms thoughts into resonant
+                            messages.</p>
+                        <div class="click-hint">See Expertise →</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FEATURES SECTION -->
+    <section id="features" class="section-pad">
+        <div class="container">
+            <div class="section-title scroll-reveal">
+                <div class="title-accent"></div>
+                <h2>Your Arsenal</h2>
+                <p class="subtitle">Master every tool, command every agent, and transform chaos into clear execution.
+                </p>
+            </div>
+
+            <div class="grid-3">
+                <div class="feature-card scroll-reveal" data-delay="0">
+                    <h4>Shared Context Memory</h4>
+                    <p>All agents share local context. What Ryu codes, Hana documents, and Akira
+                        tracks—seamlessly connected.
+                    </p>
+                </div>
+                <div class="feature-card scroll-reveal" data-delay="100">
+                    <h4>200+ Tool Integrations</h4>
+                    <p>Connects with Google, Microsoft, and 200+ tools. Your existing
+                        workflow, enhanced.</p>
+                </div>
+                <div class="feature-card scroll-reveal" data-delay="200">
+                    <h4>Enterprise Security</h4>
+                    <p>SOC 2 Type II certified, GDPR compliant, zero-knowledge encryption. Your data stays yours,
+                        always.</p>
+                </div>
+                <div class="feature-card scroll-reveal" data-delay="0">
+                    <h4>Adaptive Learning</h4>
+                    <p>Your agents learn your preferences, coding style, and voice. The more you work together, the
+                        better they become.</p>
+                </div>
+                <div class="feature-card scroll-reveal" data-delay="100">
+                    <h4>Automatic Task Routing</h4>
+                    <p>Requests automatically route to the right agent. Just describe what you need—your clan decides
+                        who handles it.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- KARATE KID QUOTE 2 -->
+    <section class="quote-section">
+        <div class="container">
+            <div class="karate-quote scroll-reveal">"First learn stand, then learn fly." — Mr. Miyagi</div>
+        </div>
+    </section>
+
+    <!-- HOW IT WORKS SECTION -->
+    <section id="howitworks" class="section-pad">
+        <div class="container">
+            <div class="section-header scroll-reveal">
+                <h2>How It Works</h2>
+                <p class="subtitle">Four simple steps to transform your ideas into reality.</p>
+            </div>
+
+            <div class="steps-grid">
+                <div class="step-card scroll-reveal" data-delay="0">
+                    <div class="step-number">01</div>
+                    <h4>Summon Your Clan</h4>
+                    <p>Choose your warriors. Need code? Summon Ryu. Strategy? Call Akira. Design? Hana awaits. Shogun
+                        coordinates them all.</p>
+                </div>
+
+                <div class="step-card scroll-reveal" data-delay="100">
+                    <div class="step-number">02</div>
+                    <h4>Describe Your Mission</h4>
+                    <p>Speak naturally. "Build my landing page" or "Plan my 3-day shoot" or "Create Q1 content
+                        calendar." Your clan responds instantly.</p>
+                </div>
+
+                <div class="step-card scroll-reveal" data-delay="200">
+                    <div class="step-number">03</div>
+                    <h4>Watch Magic Unfold</h4>
+                    <p>Your clan collaborates in real-time. Ryu codes while Hana designs. Akira plans strategy. Kaito
+                        tracks progress. Aiko documents everything.</p>
+                </div>
+
+                <div class="step-card scroll-reveal" data-delay="300">
+                    <div class="step-number">04</div>
+                    <h4>Refine & Deploy</h4>
+                    <p>Review, request changes, iterate. When satisfied, deploy with one click. Your quest is complete.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- KARATE KID QUOTE 3 -->
+    <section class="quote-section">
+        <div class="container">
+            <div class="karate-quote scroll-reveal">"Better learn balance. Balance is key." — Mr. Miyagi</div>
+        </div>
+    </section>
+
+    <!-- USE CASES SECTION -->
+    <section id="use-cases" class="section-pad dark-section">
+        <div class="container">
+            <div class="section-title scroll-reveal">
+                <div class="title-accent"></div>
+                <h2>Who Wields This Power</h2>
+                <p class="subtitle">From solo visionaries to enterprise studios.</p>
+            </div>
+
+            <div class="grid-2">
+                <div class="use-case-card scroll-reveal" data-delay="0">
+                    <h3>Solo Creators</h3>
+                    <p>YouTubers, TikTokers, indie filmmakers. Build entire projects without hiring. Your AI clan
+                        becomes your production team.</p>
+                    <div class="metric-badge">10X FASTER</div>
+                </div>
+
+                <div class="use-case-card scroll-reveal" data-delay="100">
+                    <h3>Agencies</h3>
+                    <p>Scale your output without scaling your overhead. Ship more projects, faster, with higher margins
+                        using coordinated agents.</p>
+                    <div class="metric-badge">3X PRODUCTIVITY</div>
+                </div>
+
+                <div class="use-case-card scroll-reveal" data-delay="0">
+                    <h3>Enterprise</h3>
+                    <p>Secure, compliant, and scalable. Deploy your own private AI clan behind your firewall with
+                        zero-knowledge encryption.</p>
+                    <div class="metric-badge">2X CAPACITY</div>
+                </div>
+
+                <div class="use-case-card scroll-reveal" data-delay="100">
+                    <h3>Startups</h3>
+                    <p>Go from idea to prototype in days. Your technical, creative, and strategic foundations all
+                        handled by your AI warriors.</p>
+                    <div class="metric-badge">$1M+ SAVINGS</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!--THE DOJO SECTION -->
+    <section id="dojo" class="section-pad dojo-section">
+        <div class="container">
+            <div class="dojo-content scroll-reveal">
+                <h2>THE DOJO AWAITS</h2>
+                <p>Train your agents in specialized environments. From coding challenges to design sprints, content
+                    creation workflows to production management—level up your entire clan's abilities.</p>
+                <button class="btn-primary" id="dojoWaitlist">JOIN THE WAITLIST</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- PRICING SECTION -->
+    <section id="pricing" class="section-pad">
+        <div class="container">
+            <div class="section-title scroll-reveal">
+                <div class="title-accent"></div>
+                <h2>Choose Your Path</h2>
+                <p class="pricing-reassurance">No usage traps. No black-box pricing. Scale when you're ready.</p>
+            </div>
+
+            <div class="grid-3 pricing-grid">
+                <div class="price-card scroll-reveal" data-delay="0">
+                    <h3>RONIN</h3>
+                    <div class="price-num">$49<span>/mo</span></div>
+                    <p class="tier-desc">For Solo Creators</p>
+                    <ul class="price-features">
+                        <li>6 AI Agents</li>
+                        <li>8 Projects/mo</li>
+                        <li>Basic Integrations</li>
+                    </ul>
+                    <button class="btn-outline" disabled>Coming Soon</button>
+                </div>
+
+                <div class="price-card featured-tier scroll-reveal" data-delay="100">
+                    <h3>SHOGUN</h3>
+                    <div class="price-num">$149<span>/mo</span></div>
+                    <p class="tier-desc">For Growing Teams</p>
+                    <ul class="price-features">
+                        <li>6 AI Agents</li>
+                        <li>Unlimited Projects</li>
+                        <li>Priority Support</li>
+                        <li>Team Collaboration</li>
+                    </ul>
+                    <button class="btn-outline" disabled>Coming Soon</button>
+                </div>
+
+                <div class="price-card scroll-reveal" data-delay="200">
+                    <h3>EMPEROR</h3>
+                    <div class="price-num">Custom</div>
+                    <p class="tier-desc">For Enterprise</p>
+                    <ul class="price-features">
+                        <li>Dedicated Instances</li>
+                        <li>SSO & Security</li>
+                        <li>Custom Agent Development</li>
+                        <li>On-Premise Onboarding</li>
+                    </ul>
+                    <a href="mailto:sven@cyberronin.quest" class="btn-outline contact-btn">Contact Us</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- MASTER PROFILE SECTION -->
+    <section id="master" class="section-pad dark-section">
+        <div class="container">
+            <div class="master-card scroll-reveal">
+                <h3 class="master-name">Sven Godec — The Cyber Ronin</h3>
+                <p class="master-title">Production Executive | 25 Years Experience</p>
+                <div class="master-bio">
+                    <p>Red Bull Media House. EWC. Netflix. Amazon.</p>
+                    <p>Twenty-five years watching brilliant creatives fail—not from lack of talent, but from tools that
+                        worked against them.</p>
+                    <p class="bio-summary">Cyber Ronin Quest is the distillation of those lessons.<br>
+                        Built to serve creators, not slow them down.</p>
+                </div>
+                <div class="social-links">
+                    <a href="https://www.linkedin.com/in/svengodec/" target="_blank" rel="noopener" class="social-link">LINKEDIN</a>
+                    <a href="https://x.com/svengodec" target="_blank" rel="noopener" class="social-link">X (TWITTER)</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- AGENT DETAIL MODAL -->
+    <div class="modal-overlay" id="agentModal">
+        <div class="modal-panel agent-modal-panel">
+            <button class="modal-close" id="closeAgentModal">
+                <i data-lucide="x"></i>
+            </button>
+            <div id="agentModalContent"></div>
+        </div>
+    </div>
+
+    <!-- WAITLIST MODAL -->
+    <div class="modal-overlay" id="waitlistModal">
+        <div class="modal-panel waitlist-modal-panel">
+            <button class="modal-close" id="closeModal">
+                <i data-lucide="x"></i>
+            </button>
+            <div class="modal-symbol">◯</div>
+            <h3>Join the Founding Guild</h3>
+            <p>The path opens soon.</p>
+
+            <form name="CyberRoninQuest" method="POST" data-netlify="true" netlify-honeypot="bot-field"
+                id="waitlistForm">
+                <input type="hidden" name="form-name" value="CyberRoninQuest">
+                <p class="hidden">
+                    <label>Don't fill: <input name="bot-field" /></label>
+                </p>
+
+                <div class="form-field">
+                    <label for="name">Name</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+
+                <div class="form-field">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+
+                <button type="submit" class="btn-submit">JOIN THE WAITLIST</button>
+            </form>
+
+            <div id="successMessage" class="hidden">
+                <div class="success-state">
+                    <div class="success-symbol">✓</div>
+                    <h4>Signal Received</h4>
+                    <p>Your name has been inscribed.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <div class="footer-divider"></div>
+            <p>&copy; 2026 Cyber Ronin Quest. Forged by <a href="https://www.linkedin.com/in/svengodec/"
+                    target="_blank">Sven Godec</a>.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>lucide.createIcons();</script>
+</body>
+
+</html>

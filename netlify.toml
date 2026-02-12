@@ -1,0 +1,30 @@
+[build]
+  publish = "."
+
+[[edge_functions]]
+  path = "/"
+  function = "og-handler"
+
+[[redirects]]
+  from = "/og-*-source.html"
+  to = "/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/creators/*"
+  to = "/?audience=creators"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/agencies/*"
+  to = "/?audience=agencies"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/enterprise/*"
+  to = "/?audience=enterprise"
+  status = 301
+  force = true
