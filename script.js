@@ -115,7 +115,7 @@ document.addEventListener('DOMContentLoaded', () => {
             e.preventDefault();
             const btn = waitlistForm.querySelector('button[type="submit"]');
             const originalText = btn.innerText;
-            btn.innerText = 'Sending...';
+            btn.innerText = 'SENDING...';
             btn.disabled = true;
 
             const formData = new FormData(waitlistForm);
@@ -127,10 +127,19 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
 
                 const data = await response.json();
+                console.log('Web3Forms response:', data);
 
                 if (data.success) {
+                    // Show success message
                     waitlistForm.style.display = 'none';
                     successMessage.classList.remove('hidden');
+
+                    // Reset button for next time
+                    setTimeout(() => {
+                        btn.innerText = originalText;
+                        btn.disabled = false;
+                        waitlistForm.reset();
+                    }, 2000);
                 } else {
                     throw new Error(data.message || 'Submission failed');
                 }
@@ -138,7 +147,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 console.error('Form error:', error);
                 btn.innerText = originalText;
                 btn.disabled = false;
-                alert('Failed to submit. Please try again.');
+                alert('Submission error: ' + error.message + '\n\nPlease try again or contact support.');
             }
         });
     }
