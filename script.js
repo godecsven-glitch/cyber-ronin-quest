@@ -273,13 +273,19 @@
     /* ── WAITLIST MODAL ───────────────────────────────────────────────────── */
     function openWaitlist() {
         var modal = document.getElementById('waitlist-modal');
-        modal.classList.add('active');
+        modal.style.display = 'flex';
+        requestAnimationFrame(function () {
+            requestAnimationFrame(function () {
+                modal.classList.add('active');
+            });
+        });
         document.body.style.overflow = 'hidden';
     }
 
     function closeWaitlist() {
         var modal = document.getElementById('waitlist-modal');
         modal.classList.remove('active');
+        setTimeout(function () { modal.style.display = 'none'; }, 280);
         document.body.style.overflow = '';
     }
 

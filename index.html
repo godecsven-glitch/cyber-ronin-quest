@@ -305,21 +305,20 @@
                         onclick="openWaitlist()">Coming Soon</button>
             </div>
 
-            <!-- STUDIO (featured) -->
-            <div class="pricing-card relative rounded-[2rem] p-8 flex flex-col" style="background:#111111;color:#F5F3EE;box-shadow:0 0 0 2px #E63B2E,0 0 0 6px #F5F3EE,0 25px 50px rgba(0,0,0,0.25)">
-                <div class="absolute -top-4 left-1/2 -translate-x-1/2 px-4 py-1 rounded-full text-xs font-mono-data tracking-widest uppercase font-bold whitespace-nowrap" style="background:#E63B2E;color:#F5F3EE">Most Popular</div>
+            <!-- STUDIO -->
+            <div class="pricing-card relative rounded-[2rem] p-8 flex flex-col border-2" style="background:#E8E4DD;border-color:rgba(17,17,17,0.1)">
                 <div class="mb-8">
-                    <h3 class="text-xl font-bold mb-2 font-mono-data">STUDIO</h3>
-                    <div class="flex items-baseline gap-1"><span class="text-4xl font-bold">€299</span><span class="text-sm font-mono-data" style="color:rgba(245,243,238,0.6)">/month</span></div>
+                    <h3 class="text-xl font-bold mb-2 font-mono-data" style="color:#111111">STUDIO</h3>
+                    <div class="flex items-baseline gap-1"><span class="text-4xl font-bold" style="color:#111111">€299</span><span class="text-sm font-mono-data" style="color:rgba(17,17,17,0.6)">/month</span></div>
                 </div>
                 <ul class="space-y-4 mb-8 flex-grow">
-                    <li class="flex items-center gap-3 text-sm font-mono-data"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#E63B2E" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0"><polyline points="20 6 9 17 4 12"/></svg><span style="color:rgba(245,243,238,0.8)">Unlimited productions</span></li>
-                    <li class="flex items-center gap-3 text-sm font-mono-data"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#E63B2E" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0"><polyline points="20 6 9 17 4 12"/></svg><span style="color:rgba(245,243,238,0.8)">Full version history</span></li>
-                    <li class="flex items-center gap-3 text-sm font-mono-data"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#E63B2E" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0"><polyline points="20 6 9 17 4 12"/></svg><span style="color:rgba(245,243,238,0.8)">Priority support</span></li>
-                    <li class="flex items-center gap-3 text-sm font-mono-data"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#E63B2E" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0"><polyline points="20 6 9 17 4 12"/></svg><span style="color:rgba(245,243,238,0.8)">Future module priority access</span></li>
+                    <li class="flex items-center gap-3 text-sm font-mono-data"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#E63B2E" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0"><polyline points="20 6 9 17 4 12"/></svg><span style="color:rgba(17,17,17,0.8)">Unlimited productions</span></li>
+                    <li class="flex items-center gap-3 text-sm font-mono-data"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#E63B2E" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0"><polyline points="20 6 9 17 4 12"/></svg><span style="color:rgba(17,17,17,0.8)">Full version history</span></li>
+                    <li class="flex items-center gap-3 text-sm font-mono-data"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#E63B2E" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0"><polyline points="20 6 9 17 4 12"/></svg><span style="color:rgba(17,17,17,0.8)">Priority support</span></li>
+                    <li class="flex items-center gap-3 text-sm font-mono-data"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#E63B2E" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0"><polyline points="20 6 9 17 4 12"/></svg><span style="color:rgba(17,17,17,0.8)">Future module priority access</span></li>
                 </ul>
-                <button class="w-full py-4 rounded-full font-bold text-sm tracking-wide magnetic-btn transition-all" style="background:#E63B2E;color:#F5F3EE"
-                        onmouseover="this.style.background='#F5F3EE';this.style.color='#111111'" onmouseout="this.style.background='#E63B2E';this.style.color='#F5F3EE'"
+                <button class="w-full py-4 rounded-full font-bold text-sm tracking-wide magnetic-btn transition-all" style="background:#111111;color:#F5F3EE"
+                        onmouseover="this.style.background='#E63B2E'" onmouseout="this.style.background='#111111'"
                         onclick="openWaitlist()">Coming Soon</button>
             </div>
 
@@ -381,7 +380,7 @@
 </footer>
 
 <!-- ═══ WAITLIST MODAL ══════════════════════════════════════════════════════ -->
-<div id="waitlist-modal" class="waitlist-overlay" onclick="closeWaitlistOverlay(event)">
+<div id="waitlist-modal" class="waitlist-overlay" style="display:none" onclick="closeWaitlistOverlay(event)">
     <div class="waitlist-card">
         <button class="waitlist-close" onclick="closeWaitlist()" aria-label="Close">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
