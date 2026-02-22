@@ -1,399 +1,273 @@
-document.addEventListener('DOMContentLoaded', () => {
-    
-    // ===== INITIAL LOAD ANIMATION =====
-    setTimeout(() => {
-        document.body.classList.add('loaded');
-    }, 100);
+(function () {
+    'use strict';
 
-    // ===== NAVIGATION SCROLL EFFECT =====
-    const navbar = document.getElementById('navbar');
-    let lastScroll = 0;
+    /* ── GSAP setup ──────────────────────────────────────────────────────── */
+    var hasGSAP = typeof gsap !== 'undefined';
+    if (hasGSAP && typeof ScrollTrigger !== 'undefined') {
+        gsap.registerPlugin(ScrollTrigger);
+    }
 
-    window.addEventListener('scroll', () => {
-        const currentScroll = window.pageYOffset;
-        
-        if (currentScroll > 100) {
+    /* ── NAVBAR ──────────────────────────────────────────────────────────── */
+    var navbar   = document.getElementById('navbar');
+    var navBrand = document.getElementById('nav-brand');
+    var navLinks = document.getElementById('nav-links');
+    var navCta   = document.getElementById('nav-cta');
+
+    window.addEventListener('scroll', function () {
+        var scrolled = window.scrollY > window.innerHeight * 0.8;
+        if (scrolled) {
             navbar.classList.add('scrolled');
+            navBrand.style.color = '#111111';
+            navLinks.style.color = 'rgba(17,17,17,0.7)';
+            navCta.style.background = '#111111';
         } else {
             navbar.classList.remove('scrolled');
+            navBrand.style.color = '#F5F3EE';
+            navLinks.style.color = 'rgba(245,243,238,0.8)';
+            navCta.style.background = '#E63B2E';
         }
-        
-        lastScroll = currentScroll;
     }, { passive: true });
 
-    // ===== SCROLL REVEAL ANIMATIONS =====
-    const scrollRevealElements = document.querySelectorAll('.scroll-reveal');
-    
-    const revealObserver = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                const delay = entry.target.dataset.delay || 0;
-                setTimeout(() => {
-                    entry.target.classList.add('revealed');
-                }, parseInt(delay));
-                revealObserver.unobserve(entry.target);
-            }
-        });
-    }, {
-        threshold: 0.15,
-        rootMargin: '0px 0px -50px 0px'
-    });
-
-    scrollRevealElements.forEach(el => {
-        revealObserver.observe(el);
-    });
-
-    // ===== MOBILE MENU (Shoji Door) =====
-    const mobileMenu = document.getElementById('mobileMenu');
-    const menuToggle = document.getElementById('menuToggle');
-    const menuClose = document.getElementById('menuClose');
-    const mobileNavLinks = document.querySelectorAll('.mobile-nav-link');
-
-    const openMenu = () => {
-        mobileMenu.classList.add('active');
-        document.body.style.overflow = 'hidden';
-    };
-
-    const closeMenu = () => {
-        mobileMenu.classList.remove('active');
-        document.body.style.overflow = '';
-    };
-
-    menuToggle?.addEventListener('click', openMenu);
-    menuClose?.addEventListener('click', closeMenu);
-    
-    mobileNavLinks.forEach(link => {
-        link.addEventListener('click', closeMenu);
-    });
-
-    // Close menu on overlay click
-    mobileMenu?.addEventListener('click', (e) => {
-        if (e.target === mobileMenu) closeMenu();
-    });
-
-    // ===== WAITLIST MODAL =====
-    const waitlistModal = document.getElementById('waitlistModal');
-    const waitlistForm = document.getElementById('waitlistForm');
-    const successMessage = document.getElementById('successMessage');
-
-    window.openModal = () => {
-        waitlistModal.classList.add('active');
-        document.body.style.overflow = 'hidden';
-    };
-
-    window.closeModal = () => {
-        waitlistModal.classList.remove('active');
-        document.body.style.overflow = '';
-        // Reset form after close animation
-        setTimeout(() => {
-            if (successMessage && !successMessage.classList.contains('hidden')) {
-                waitlistForm.style.display = 'block';
-                successMessage.classList.add('hidden');
-                waitlistForm.reset();
-            }
-        }, 400);
-    };
-
-    // Modal triggers
-    document.getElementById('openWaitlist')?.addEventListener('click', openModal);
-    document.getElementById('heroWaitlist')?.addEventListener('click', openModal);
-    document.getElementById('dojoWaitlist')?.addEventListener('click', openModal);
-    document.getElementById('mobileWaitlist')?.addEventListener('click', () => {
-        closeMenu();
-        setTimeout(openModal, 300);
-    });
-    document.getElementById('closeModal')?.addEventListener('click', closeModal);
-
-    // Close modal on overlay click
-    waitlistModal?.addEventListener('click', (e) => {
-        if (e.target === waitlistModal) closeModal();
-    });
-
-    // Form submission
-    if (waitlistForm) {
-        waitlistForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const btn = waitlistForm.querySelector('button[type="submit"]');
-            const originalText = btn.innerText;
-            btn.innerText = 'SENDING...';
-            btn.disabled = true;
-
-            const formData = new FormData(waitlistForm);
-
-            try {
-                const response = await fetch('https://api.web3forms.com/submit', {
-                    method: 'POST',
-                    body: formData
-                });
-
-                const data = await response.json();
-                console.log('Web3Forms response:', data);
-
-                if (data.success) {
-                    // Show success message
-                    waitlistForm.style.display = 'none';
-                    successMessage.classList.remove('hidden');
-
-                    // Reset button for next time
-                    setTimeout(() => {
-                        btn.innerText = originalText;
-                        btn.disabled = false;
-                        waitlistForm.reset();
-                    }, 2000);
-                } else {
-                    throw new Error(data.message || 'Submission failed');
-                }
-            } catch (error) {
-                console.error('Form error:', error);
-                btn.innerText = originalText;
-                btn.disabled = false;
-                alert('Submission error: ' + error.message + '\n\nPlease try again or contact support.');
-            }
+    /* ── HERO ANIMATION ──────────────────────────────────────────────────── */
+    if (hasGSAP) {
+        var tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
+        tl.to('.hero-line-1', { y: 0, opacity: 1, duration: 1,   delay: 0.2 })
+          .to('.hero-line-2', { y: 0, opacity: 1, duration: 1.2 }, '-=0.6')
+          .to('.hero-sub',    { y: 0, opacity: 1, duration: 0.8 }, '-=0.8')
+          .to('.hero-cta',    { y: 0, opacity: 1, duration: 0.6 }, '-=0.4');
+    } else {
+        ['.hero-line-1', '.hero-line-2', '.hero-sub', '.hero-cta'].forEach(function (s) {
+            var el = document.querySelector(s);
+            if (el) { el.style.opacity = '1'; el.style.transform = 'none'; }
         });
     }
 
-    // ===== AGENT MODAL DATA =====
-    const agentData = {
-        shogun: {
-            name: 'SHOGUN',
-            title: 'Supreme Commander',
-            tagline: 'The Master Strategist. Perfect Synchronization Across All Forces.',
-            description: 'Shogun is the orchestrator of your AI team. It analyzes your intent, understands context, delegates tasks to specialist agents, and synthesizes their outputs into cohesive results. Think of Shogun as your AI production manager who knows exactly which agent to deploy for every challenge.',
-            capabilities: [
-                'Natural language intent analysis',
-                'Multi-agent task delegation and coordination',
-                'Context maintenance across complex projects',
-                'Output synthesis and quality control',
-                'Workflow optimization and routing',
-                'Priority management and deadline awareness',
-                'Cross-agent communication and handoffs',
-                'Real-time adaptation to changing requirements'
-            ],
-            whoItHelps: [
-                { type: 'Solo Creators', use: 'Manage entire production pipelines without hiring—Shogun delegates design to Hana, code to Ryu, copy to Aiko automatically' },
-                { type: 'Production Teams', use: 'Coordinate multiple simultaneous projects, ensuring the right specialist handles each task' },
-                { type: 'Agencies', use: 'Scale client delivery without expanding headcount—Shogun manages AI teams for dozens of projects in parallel' },
-                { type: 'Filmmakers', use: 'Orchestrate pre-production, production, and post workflows with AI agents handling scripts, schedules, and assets' },
-                { type: 'Game Studios', use: 'Coordinate design docs, code architecture, art pipelines, and marketing—all synchronized through Shogun' },
-                { type: 'Authors & Publishers', use: 'Manage editing, formatting, cover design, marketing copy, and distribution simultaneously' }
-            ]
-        },
-        ryu: {
-            name: 'RYU',
-            title: 'The Dragon • Security & Code',
-            tagline: 'Power Incarnate. Master of All Development Elements.',
-            description: 'Ryu is your full-stack development powerhouse. From frontend interfaces to backend architectures, from database optimization to security hardening—Ryu builds it all with precision and elegance.',
-            capabilities: [
-                'Full-stack development (React, Vue, Node, Python, Go)',
-                'API design and microservices architecture',
-                'Database optimization (SQL, NoSQL, graph databases)',
-                'Security auditing and penetration testing',
-                'CI/CD pipeline automation',
-                'Performance optimization and scaling',
-                'Code review and refactoring',
-                'Technical documentation'
-            ],
-            whoItHelps: [
-                { type: 'Game Designers', use: 'Build game engines, tools, and multiplayer backends' },
-                { type: 'Filmmakers', use: 'Develop custom editing tools, asset management systems, and render farms' },
-                { type: 'App Developers', use: 'Architect scalable mobile and web applications from concept to production' },
-                { type: 'SaaS Founders', use: 'Build secure, enterprise-grade platforms with automated deployment' },
-                { type: 'Technical Writers', use: 'Generate comprehensive API documentation and code examples' },
-                { type: 'Agencies', use: 'Rapidly prototype and deploy client projects across any tech stack' }
-            ]
-        },
-        akira: {
-            name: 'AKIRA',
-            title: 'Bright & Clear • Data & Strategy',
-            tagline: 'Illumination Through Chaos. Pattern Recognition at Scale.',
-            description: 'Akira transforms data into actionable intelligence. From market research to audience analytics, from competitive positioning to growth forecasting—Akira sees what others miss and charts the path forward.',
-            capabilities: [
-                'Market research and competitive analysis',
-                'Audience segmentation and persona development',
-                'Data visualization and dashboard creation',
-                'Predictive analytics and trend forecasting',
-                'A/B testing strategy and statistical analysis',
-                'Business intelligence reporting',
-                'Growth modeling and revenue projections',
-                'Strategic planning and roadmap development'
-            ],
-            whoItHelps: [
-                { type: 'Content Creators', use: 'Analyze audience behavior, optimize posting schedules, identify viral opportunities' },
-                { type: 'Photographers', use: 'Research trending visual styles, price competitively, target ideal clients' },
-                { type: 'Musicians', use: 'Track streaming analytics, identify growth markets, plan tour routes' },
-                { type: 'Authors & Writers', use: 'Research genre trends, analyze reader preferences, optimize book launches' },
-                { type: 'Marketing Agencies', use: 'Build data-driven campaigns with measurable ROI predictions' },
-                { type: 'E-commerce Brands', use: 'Optimize pricing, inventory, and seasonal strategies based on market signals' }
-            ]
-        },
-        hana: {
-            name: 'HANA',
-            title: 'The Flower • Creative & Design',
-            tagline: 'Delicate Strength. Beauty With Purpose.',
-            description: 'Hana is your creative design partner. From brand identity to UI/UX, from motion graphics to visual storytelling—Hana transforms pixels into experiences that captivate and convert.',
-            capabilities: [
-                'Brand identity and visual systems design',
-                'UI/UX design for web and mobile applications',
-                'Motion graphics and animation',
-                'Print and digital marketing materials',
-                'Iconography and illustration',
-                'Typography and layout design',
-                'Design system creation and documentation',
-                'Accessibility compliance (WCAG AA/AAA)'
-            ],
-            whoItHelps: [
-                { type: 'Filmmakers', use: 'Design title sequences, promotional materials, festival submissions' },
-                { type: 'Game Designers', use: 'Create character concepts, UI overlays, branding assets' },
-                { type: 'Photographers', use: 'Build portfolio sites, design logos, create client deliverable templates' },
-                { type: 'Musicians', use: 'Design album covers, tour posters, social media assets' },
-                { type: 'Authors', use: 'Create book covers, author websites, promotional graphics' },
-                { type: 'Startups', use: 'Develop complete brand identities from scratch with design systems' }
-            ]
-        },
-        kaito: {
-            name: 'KAITO',
-            title: 'Ocean Navigator • Operations',
-            tagline: 'Guides Through Complexity. Safe Harbor Guaranteed.',
-            description: 'Kaito orchestrates projects from chaos to completion. From sprint planning to resource allocation, from deadline management to team coordination—Kaito ensures nothing falls through the cracks.',
-            capabilities: [
-                'Project planning and timeline creation',
-                'Resource allocation and capacity planning',
-                'Task delegation and dependency mapping',
-                'Risk assessment and mitigation strategies',
-                'Team coordination and status reporting',
-                'Workflow automation and optimization',
-                'Budget tracking and cost management',
-                'Stakeholder communication templates'
-            ],
-            whoItHelps: [
-                { type: 'Film Productions', use: 'Manage shoot schedules, crew coordination, equipment tracking, post-production workflows' },
-                { type: 'Agencies', use: 'Juggle multiple client projects, prevent scope creep, optimize billable hours' },
-                { type: 'Event Producers', use: 'Coordinate vendors, timelines, budgets across complex live productions' },
-                { type: 'Podcast Networks', use: 'Schedule recordings, manage guest coordination, track episode pipelines' },
-                { type: 'Creative Teams', use: 'Balance creative work with operational deadlines across distributed teams' },
-                { type: 'Solo Entrepreneurs', use: 'Stay organized across multiple revenue streams without dropping balls' }
-            ]
-        },
-        aiko: {
-            name: 'AIKO',
-            title: 'Beloved Connection • Communications',
-            tagline: 'Harmony Through Words. Bridges Built, Hearts Won.',
-            description: 'Aiko transforms thoughts into resonant messages. From brand messaging to email campaigns, from social media to technical documentation—Aiko ensures your words land with precision and power.',
-            capabilities: [
-                'Brand messaging and voice development',
-                'Copywriting for web, email, and social',
-                'Content strategy and editorial calendars',
-                'SEO optimization and keyword research',
-                'Technical documentation and user guides',
-                'Press releases and media pitches',
-                'Social media management and engagement',
-                'Email campaign design and A/B testing'
-            ],
-            whoItHelps: [
-                { type: 'Authors & Poets', use: 'Craft compelling book descriptions, author bios, and marketing copy that sells' },
-                { type: 'Musicians', use: 'Write press releases, social captions, Spotify bios that build fan connection' },
-                { type: 'Filmmakers', use: 'Create festival submissions, pitch decks, and promotional content that gets noticed' },
-                { type: 'Photographers', use: 'Develop portfolio descriptions, client proposals, and brand stories that convert' },
-                { type: 'SaaS Companies', use: 'Build knowledge bases, onboarding emails, and product announcements that reduce churn' },
-                { type: 'Nonprofits', use: 'Craft grant applications, donor communications, and impact reports that secure funding' }
-            ]
-        }
-    };
+    /* ── SHUFFLER CARD ───────────────────────────────────────────────────── */
+    var shufflerTrack = document.getElementById('shuffler-track');
+    var shufflerItems = shufflerTrack ? shufflerTrack.querySelectorAll('.shuffler-item') : [];
+    var shufflerIndex = 0;
 
-    // ===== AGENT MODAL =====
-    const agentModal = document.getElementById('agentModal');
-    const agentModalContent = document.getElementById('agentModalContent');
+    if (shufflerTrack) {
+        setInterval(function () {
+            shufflerIndex = (shufflerIndex + 1) % 3;
+            shufflerTrack.style.transform = 'translateY(-' + (shufflerIndex * 64) + 'px)';
+            shufflerItems.forEach(function (span, i) {
+                span.style.color = i === shufflerIndex ? '#E63B2E' : 'rgba(17,17,17,0.2)';
+            });
+        }, 3000);
+    }
 
-    window.openAgentModal = (agentId) => {
-        const agent = agentData[agentId];
-        if (!agent) return;
+    /* ── TYPEWRITER CARD ─────────────────────────────────────────────────── */
+    var typeEl = document.getElementById('typewriter-text');
+    if (typeEl) {
+        var twMessages = [
+            'CS_V1: DRAFT_CREATED...',
+            'CS_V1: LOCKED...',
+            'PDF: DOWNLOADED...',
+            'CS_V2: NEW_REVISION...',
+            'CS_V2: MARKED_SENT...'
+        ];
+        var twMsgIdx = 0, twCharIdx = 0;
 
-        const content = `
-            <div class="agent-modal-header">
-                <h2>${agent.name}</h2>
-                <div class="agent-modal-title">${agent.title}</div>
-                <p class="agent-modal-tagline">${agent.tagline}</p>
-            </div>
-            <div class="agent-modal-body">
-                <p class="agent-modal-desc">${agent.description}</p>
-                
-                <h3>Core Capabilities</h3>
-                <ul class="capabilities-list">
-                    ${agent.capabilities.map(cap => `<li>${cap}</li>`).join('')}
-                </ul>
-                
-                <h3>Who ${agent.name} Helps</h3>
-                <div class="who-helps-grid">
-                    ${agent.whoItHelps.map(item => `
-                        <div class="who-helps-card">
-                            <h4>${item.type}</h4>
-                            <p>${item.use}</p>
-                        </div>
-                    `).join('')}
-                </div>
-                
-                <button class="btn-primary" onclick="closeAgentModal(); openModal();">JOIN THE WAITLIST</button>
-            </div>
-        `;
-
-        agentModalContent.innerHTML = content;
-        agentModal.classList.add('active');
-        document.body.style.overflow = 'hidden';
-    };
-
-    window.closeAgentModal = () => {
-        agentModal.classList.remove('active');
-        document.body.style.overflow = '';
-    };
-
-    document.getElementById('closeAgentModal')?.addEventListener('click', closeAgentModal);
-    
-    agentModal?.addEventListener('click', (e) => {
-        if (e.target === agentModal) closeAgentModal();
-    });
-
-    // ===== KEYBOARD NAVIGATION =====
-    document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape') {
-            if (agentModal?.classList.contains('active')) {
-                closeAgentModal();
-            } else if (waitlistModal?.classList.contains('active')) {
-                closeModal();
-            } else if (mobileMenu?.classList.contains('active')) {
-                closeMenu();
+        function typeStep() {
+            var msg = twMessages[twMsgIdx];
+            if (twCharIdx < msg.length) {
+                typeEl.textContent += msg[twCharIdx];
+                twCharIdx++;
+                setTimeout(typeStep, 50);
+            } else {
+                setTimeout(function () {
+                    typeEl.textContent = '';
+                    twCharIdx = 0;
+                    twMsgIdx  = (twMsgIdx + 1) % twMessages.length;
+                    typeStep();
+                }, 2000);
             }
         }
+        typeStep();
+    }
+
+    /* ── SCHEDULER CARD ──────────────────────────────────────────────────── */
+    var dayCells    = document.querySelectorAll('.day-cell');
+    var schedCursor = document.getElementById('sched-cursor');
+    var schedLabel  = document.getElementById('sched-label');
+    var gridWrapper = document.getElementById('day-grid-wrapper');
+
+    function setCursorPos(cellIdx) {
+        if (!schedCursor || !gridWrapper || dayCells.length === 0) return;
+        var cell = dayCells[cellIdx];
+        if (!cell) return;
+        var cellLeft = cell.offsetLeft + cell.offsetWidth  / 2;
+        var cellTop  = cell.offsetTop  + cell.offsetHeight / 2;
+        schedCursor.style.left = cellLeft + 'px';
+        schedCursor.style.top  = cellTop  + 'px';
+    }
+
+    function runSchedSequence() {
+        if (!schedCursor) return;
+        setTimeout(function () {
+            schedCursor.style.opacity = '1';
+            setCursorPos(3);
+        }, 300);
+        setTimeout(function () {
+            dayCells.forEach(function (c, i) { c.classList.toggle('active', i === 3); });
+        }, 1100);
+        setTimeout(function () {
+            setCursorPos(6);
+            schedLabel.style.opacity = '1';
+        }, 1900);
+        setTimeout(function () {
+            schedCursor.style.opacity = '0';
+            schedLabel.style.opacity  = '0';
+            dayCells.forEach(function (c) { c.classList.remove('active'); });
+        }, 3200);
+    }
+
+    if (schedCursor) {
+        runSchedSequence();
+        setInterval(runSchedSequence, 4200);
+    }
+
+    /* ── PHILOSOPHY SCROLL ANIMATION ─────────────────────────────────────── */
+    if (hasGSAP && typeof ScrollTrigger !== 'undefined') {
+        document.querySelectorAll('.philosophy-line').forEach(function (el, i) {
+            gsap.from(el, {
+                scrollTrigger: { trigger: '#philosophy', start: 'top 65%' },
+                y: 40, opacity: 0, duration: 1, delay: i * 0.15, ease: 'power3.out'
+            });
+        });
+    }
+
+    /* ── WORKFLOW CANVAS ANIMATIONS ──────────────────────────────────────── */
+    document.querySelectorAll('.workflow-canvas').forEach(function (canvas) {
+        var ctx  = canvas.getContext('2d');
+        var anim = canvas.getAttribute('data-anim');
+        var time = 0;
+
+        function resize() {
+            canvas.width  = canvas.offsetWidth  * window.devicePixelRatio;
+            canvas.height = canvas.offsetHeight * window.devicePixelRatio;
+            ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
+        }
+        resize();
+        window.addEventListener('resize', resize, { passive: true });
+
+        function draw() {
+            var w = canvas.offsetWidth;
+            var h = canvas.offsetHeight;
+            ctx.clearRect(0, 0, w, h);
+
+            if (anim === 'helix') {
+                for (var i = 0; i < 3; i++) {
+                    var radius = 40 + i * 25;
+                    ctx.strokeStyle = 'rgba(230,59,46,0.3)';
+                    ctx.lineWidth = 2;
+                    ctx.beginPath();
+                    ctx.arc(w / 2, h / 2, radius, 0, Math.PI * 2);
+                    ctx.stroke();
+                    var angle = time * 0.001 + (i * Math.PI / 3);
+                    var x = w / 2 + Math.cos(angle) * radius;
+                    var y = h / 2 + Math.sin(angle) * radius;
+                    ctx.fillStyle = '#E63B2E';
+                    ctx.beginPath();
+                    ctx.arc(x, y, 4, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+            } else if (anim === 'scan') {
+                ctx.fillStyle = 'rgba(230,59,46,0.1)';
+                for (var sx = 20; sx < w; sx += 30) {
+                    for (var sy = 20; sy < h; sy += 30) {
+                        ctx.fillRect(sx - 1, sy - 1, 2, 2);
+                    }
+                }
+                var scanX = 20 + (time * 0.1) % (w - 40);
+                ctx.strokeStyle = '#E63B2E';
+                ctx.lineWidth = 2;
+                ctx.beginPath();
+                ctx.moveTo(scanX, 0);
+                ctx.lineTo(scanX, h);
+                ctx.stroke();
+                var grad = ctx.createLinearGradient(scanX - 20, 0, scanX + 20, 0);
+                grad.addColorStop(0,   'rgba(230,59,46,0)');
+                grad.addColorStop(0.5, 'rgba(230,59,46,0.3)');
+                grad.addColorStop(1,   'rgba(230,59,46,0)');
+                ctx.fillStyle = grad;
+                ctx.fillRect(scanX - 20, 0, 40, h);
+            } else if (anim === 'wave') {
+                ctx.strokeStyle = '#E63B2E';
+                ctx.lineWidth = 3;
+                ctx.beginPath();
+                for (var wx = 0; wx < w; wx++) {
+                    var wy = h / 2 + Math.sin((wx + time) * 0.02) * 30 * Math.sin(time * 0.001);
+                    wx === 0 ? ctx.moveTo(wx, wy) : ctx.lineTo(wx, wy);
+                }
+                ctx.stroke();
+                ctx.strokeStyle = 'rgba(230,59,46,0.3)';
+                ctx.lineWidth = 1.5;
+                ctx.beginPath();
+                for (var wx2 = 0; wx2 < w; wx2++) {
+                    var wy2 = h / 2 + Math.cos((wx2 + time) * 0.015) * 20;
+                    wx2 === 0 ? ctx.moveTo(wx2, wy2) : ctx.lineTo(wx2, wy2);
+                }
+                ctx.stroke();
+            }
+
+            time += 16;
+            requestAnimationFrame(draw);
+        }
+        draw();
     });
 
-    // ===== SMOOTH SCROLL FOR ANCHOR LINKS =====
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function (e) {
-            e.preventDefault();
-            const target = document.querySelector(this.getAttribute('href'));
-            if (target) {
-                const offset = 80; // navbar height
-                const targetPosition = target.getBoundingClientRect().top + window.pageYOffset - offset;
-                window.scrollTo({
-                    top: targetPosition,
-                    behavior: 'smooth'
-                });
+    /* ── WORKFLOW STICKY SCALE/BLUR EFFECT ───────────────────────────────── */
+    var wfCards = Array.prototype.slice.call(document.querySelectorAll('.protocol-card'));
+
+    window.addEventListener('scroll', function () {
+        wfCards.forEach(function (card, i) {
+            if (i === wfCards.length - 1) return;
+            var next = wfCards[i + 1];
+            if (!next) return;
+            var nextTop  = next.getBoundingClientRect().top;
+            var progress = Math.max(0, Math.min(1, (window.innerHeight - nextTop) / window.innerHeight));
+            if (progress > 0) {
+                card.style.transform = 'scale(' + (1 - progress * 0.1) + ')';
+                card.style.filter    = 'blur(' + (progress * 20) + 'px)';
+                card.style.opacity   = String(1 - progress * 0.5);
+            } else {
+                card.style.transform = '';
+                card.style.filter    = '';
+                card.style.opacity   = '';
             }
         });
-    });
+    }, { passive: true });
 
-    // ===== INK SPREAD EFFECT ON AGENT CARDS =====
-    const agentCards = document.querySelectorAll('.agent-card');
-    
-    agentCards.forEach(card => {
-        card.addEventListener('mousemove', (e) => {
-            const rect = card.getBoundingClientRect();
-            const x = e.clientX - rect.left;
-            const y = e.clientY - rect.top;
-            
-            card.style.setProperty('--mouse-x', `${x}px`);
-            card.style.setProperty('--mouse-y', `${y}px`);
+    /* ── EXPANSION ANIMATION ─────────────────────────────────────────────── */
+    if (hasGSAP && typeof ScrollTrigger !== 'undefined') {
+        document.querySelectorAll('.expansion-line').forEach(function (el, i) {
+            gsap.from(el, {
+                scrollTrigger: { trigger: '#expansion', start: 'top 65%' },
+                y: 40, opacity: 0, duration: 1, delay: i * 0.2, ease: 'power3.out'
+            });
         });
-    });
+    }
 
-    console.log('Cyber Ronin Quest — Initialized');
-});
+    /* ── PRICING ANIMATION ───────────────────────────────────────────────── */
+    if (hasGSAP && typeof ScrollTrigger !== 'undefined') {
+        document.querySelectorAll('.pricing-card').forEach(function (card, i) {
+            gsap.from(card, {
+                scrollTrigger: { trigger: '#pricing', start: 'top 70%' },
+                y: 60, opacity: 0, duration: 0.8, delay: i * 0.15, ease: 'power3.out'
+            });
+        });
+    }
+
+    /* ── FEATURES CARDS SCROLL-IN ────────────────────────────────────────── */
+    if (hasGSAP && typeof ScrollTrigger !== 'undefined') {
+        ['#shuffler-card', '#typewriter-card', '#scheduler-card'].forEach(function (sel, i) {
+            gsap.from(sel, {
+                scrollTrigger: { trigger: sel, start: 'top 82%' },
+                y: 40, opacity: 0, duration: 0.8, delay: i * 0.1, ease: 'power3.out'
+            });
+        });
+    }
+
+}());
