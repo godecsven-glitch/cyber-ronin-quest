@@ -89,3 +89,43 @@ html { scroll-behavior: smooth; }
     transition: background 0.3s, color 0.3s;
 }
 .day-cell.active { background: #E63B2E; color: #F5F3EE; }
+
+/* ── Waitlist Modal ───────────────────────────────────────────────────────── */
+.waitlist-overlay {
+    position: fixed; inset: 0; z-index: 99999;
+    display: flex; align-items: center; justify-content: center;
+    background: rgba(17, 17, 17, 0.75);
+    backdrop-filter: blur(8px);
+    opacity: 0; pointer-events: none;
+    transition: opacity 0.3s ease;
+    padding: 24px;
+}
+.waitlist-overlay.active {
+    opacity: 1; pointer-events: all;
+}
+.waitlist-card {
+    position: relative;
+    background: #F5F3EE;
+    border-radius: 2rem;
+    padding: 48px;
+    width: 100%; max-width: 480px;
+    box-shadow: 0 40px 80px rgba(0, 0, 0, 0.35);
+    transform: translateY(20px);
+    transition: transform 0.3s ease;
+}
+.waitlist-overlay.active .waitlist-card {
+    transform: translateY(0);
+}
+.waitlist-close {
+    position: absolute; top: 20px; right: 20px;
+    width: 36px; height: 36px;
+    border-radius: 50%; border: none;
+    background: rgba(17, 17, 17, 0.08);
+    color: #111111;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+.waitlist-close:hover { background: rgba(230, 59, 46, 0.15); }
+.waitlist-input { transition: border-color 0.2s; }
+.waitlist-input:focus { border-color: #E63B2E !important; }

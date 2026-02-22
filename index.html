@@ -32,7 +32,7 @@
             <a href="#workflow"   class="hover:text-[#E63B2E] transition-colors">Workflow</a>
             <a href="#pricing"    class="hover:text-[#E63B2E] transition-colors">Pricing</a>
         </div>
-        <button id="nav-cta" onclick="document.getElementById('pricing').scrollIntoView({behavior:'smooth'})" class="magnetic-btn px-6 py-2.5 rounded-full font-bold text-sm transition-all" style="background:#E63B2E; color:#F5F3EE">Try for Free</button>
+        <button id="nav-cta" onclick="openWaitlist()" class="magnetic-btn px-6 py-2.5 rounded-full font-bold text-sm transition-all" style="background:#E63B2E; color:#F5F3EE">Waitlist Me</button>
     </div>
 </nav>
 
@@ -58,10 +58,10 @@
              style="margin-left:clamp(16px,3vw,48px); opacity:0; transform:translateY(20px)">
             <button class="magnetic-btn px-8 py-4 rounded-full font-bold text-sm tracking-wide flex items-center gap-3 border-2 transition-all"
                     style="background:#E63B2E; color:#F5F3EE; border-color:#E63B2E"
-                    onclick="document.getElementById('pricing').scrollIntoView({behavior:'smooth'})"
+                    onclick="openWaitlist()"
                     onmouseover="this.style.background='#111111';this.style.borderColor='#F5F3EE'"
                     onmouseout="this.style.background='#E63B2E';this.style.borderColor='#E63B2E'">
-                Try for Free
+                Waitlist Me
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
             </button>
             <button class="font-mono-data text-sm tracking-widest uppercase transition-colors"
@@ -285,7 +285,7 @@
                 </ul>
                 <button class="w-full py-4 rounded-full font-bold text-sm tracking-wide magnetic-btn transition-all" style="background:#111111;color:#F5F3EE"
                         onmouseover="this.style.background='#E63B2E'" onmouseout="this.style.background='#111111'"
-                        onclick="document.getElementById('pricing').scrollIntoView({behavior:'smooth'})">Try for Free</button>
+                        onclick="openWaitlist()">Coming Soon</button>
             </div>
 
             <!-- STARTER -->
@@ -302,7 +302,7 @@
                 </ul>
                 <button class="w-full py-4 rounded-full font-bold text-sm tracking-wide magnetic-btn transition-all" style="background:#111111;color:#F5F3EE"
                         onmouseover="this.style.background='#E63B2E'" onmouseout="this.style.background='#111111'"
-                        onclick="document.getElementById('pricing').scrollIntoView({behavior:'smooth'})">Upgrade to Starter</button>
+                        onclick="openWaitlist()">Coming Soon</button>
             </div>
 
             <!-- STUDIO (featured) -->
@@ -320,7 +320,7 @@
                 </ul>
                 <button class="w-full py-4 rounded-full font-bold text-sm tracking-wide magnetic-btn transition-all" style="background:#E63B2E;color:#F5F3EE"
                         onmouseover="this.style.background='#F5F3EE';this.style.color='#111111'" onmouseout="this.style.background='#E63B2E';this.style.color='#F5F3EE'"
-                        onclick="document.getElementById('pricing').scrollIntoView({behavior:'smooth'})">Upgrade to Studio</button>
+                        onclick="openWaitlist()">Coming Soon</button>
             </div>
 
             <!-- ENTERPRISE -->
@@ -336,7 +336,7 @@
                 </ul>
                 <button class="w-full py-4 rounded-full font-bold text-sm tracking-wide magnetic-btn transition-all" style="background:#111111;color:#F5F3EE"
                         onmouseover="this.style.background='#E63B2E'" onmouseout="this.style.background='#111111'"
-                        onclick="document.getElementById('pricing').scrollIntoView({behavior:'smooth'})">Talk to Us</button>
+                        onclick="openWaitlist()">Coming Soon</button>
             </div>
 
         </div>
@@ -379,6 +379,46 @@
         </div>
     </div>
 </footer>
+
+<!-- ═══ WAITLIST MODAL ══════════════════════════════════════════════════════ -->
+<div id="waitlist-modal" class="waitlist-overlay" onclick="closeWaitlistOverlay(event)">
+    <div class="waitlist-card">
+        <button class="waitlist-close" onclick="closeWaitlist()" aria-label="Close">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+
+        <div id="waitlist-form-view">
+            <span class="font-mono-data text-xs tracking-widest uppercase" style="color:#E63B2E">[WAITLIST]</span>
+            <h2 class="text-3xl font-bold uppercase tracking-tight mt-3 mb-2" style="color:#111111">Join the Waitlist</h2>
+            <p class="font-mono-data text-sm mb-8" style="color:rgba(17,17,17,0.6)">Be first in line when Cyberronin opens its doors.</p>
+            <form id="waitlist-form" onsubmit="submitWaitlist(event)">
+                <div class="mb-4">
+                    <label class="font-mono-data text-xs tracking-widest uppercase mb-2 block" style="color:rgba(17,17,17,0.5)">Name</label>
+                    <input type="text" id="waitlist-name" name="name" required placeholder="Your name"
+                           class="waitlist-input w-full px-5 py-4 rounded-2xl font-mono-data text-sm"
+                           style="background:#E8E4DD; border:2px solid rgba(17,17,17,0.1); color:#111111; outline:none">
+                </div>
+                <div class="mb-6">
+                    <label class="font-mono-data text-xs tracking-widest uppercase mb-2 block" style="color:rgba(17,17,17,0.5)">Email</label>
+                    <input type="email" id="waitlist-email" name="email" required placeholder="your@email.com"
+                           class="waitlist-input w-full px-5 py-4 rounded-2xl font-mono-data text-sm"
+                           style="background:#E8E4DD; border:2px solid rgba(17,17,17,0.1); color:#111111; outline:none">
+                </div>
+                <button type="submit" id="waitlist-submit" class="w-full py-4 rounded-full font-bold text-sm tracking-wide magnetic-btn transition-all"
+                        style="background:#111111; color:#F5F3EE">Join Waitlist</button>
+                <p id="waitlist-error" class="font-mono-data text-xs mt-4 text-center" style="color:#E63B2E; display:none"></p>
+            </form>
+        </div>
+
+        <div id="waitlist-success-view" class="text-center py-8" style="display:none">
+            <div class="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6" style="background:rgba(230,59,46,0.1)">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#E63B2E" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            </div>
+            <h2 class="text-3xl font-bold uppercase tracking-tight mb-3" style="color:#111111">You're In.</h2>
+            <p class="font-mono-data text-sm" style="color:rgba(17,17,17,0.6)">We'll notify you when Cyberronin is ready for you.</p>
+        </div>
+    </div>
+</div>
 
 <script src="script.js"></script>
 </body>
