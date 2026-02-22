@@ -420,19 +420,12 @@
 </div>
 
 <script>
-/* ── Waitlist modal — global functions, independent of main IIFE ── */
 function openWaitlist() {
-    var modal = document.getElementById('waitlist-modal');
-    modal.style.display = 'flex';
-    requestAnimationFrame(function () {
-        requestAnimationFrame(function () { modal.classList.add('active'); });
-    });
+    document.getElementById('waitlist-modal').style.display = 'flex';
     document.body.style.overflow = 'hidden';
 }
 function closeWaitlist() {
-    var modal = document.getElementById('waitlist-modal');
-    modal.classList.remove('active');
-    setTimeout(function () { modal.style.display = 'none'; }, 280);
+    document.getElementById('waitlist-modal').style.display = 'none';
     document.body.style.overflow = '';
 }
 function closeWaitlistOverlay(e) {

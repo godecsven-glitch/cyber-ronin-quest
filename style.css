@@ -98,11 +98,6 @@ html { scroll-behavior: smooth; }
     background: rgba(17, 17, 17, 0.75);
     backdrop-filter: blur(8px);
     padding: 24px;
-    opacity: 0;
-    transition: opacity 0.25s ease;
-}
-.waitlist-overlay.active {
-    opacity: 1;
 }
 .waitlist-card {
     position: relative;
@@ -112,14 +107,6 @@ html { scroll-behavior: smooth; }
     padding: 40px 48px;
     width: 100%; max-width: 480px;
     box-shadow: 0 32px 64px rgba(0, 0, 0, 0.25);
-    animation: none;
-}
-.waitlist-overlay.active .waitlist-card {
-    animation: waitlistIn 0.25s ease forwards;
-}
-@keyframes waitlistIn {
-    from { opacity: 0; transform: translateY(16px); }
-    to   { opacity: 1; transform: translateY(0); }
 }
 .waitlist-close {
     position: absolute; top: 20px; right: 20px;
