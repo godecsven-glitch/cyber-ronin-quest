@@ -11,22 +11,19 @@
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=DM+Serif+Display:ital@0;1&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
     
     <script src="https://cdn.tailwindcss.com"></script>
-    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
-    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
-    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-    <script src="https://unpkg.com/lucide@latest"></script>
     
     <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
         body {
             font-family: 'Space Grotesk', sans-serif;
             background-color: #F5F3EE;
             color: #111111;
             overflow-x: hidden;
-            margin: 0;
-            padding: 0;
         }
+        
         .font-drama { font-family: 'DM Serif Display', serif; }
         .font-mono-data { font-family: 'Space Mono', monospace; }
         
@@ -48,426 +45,622 @@
         @keyframes pulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.5; transform: scale(1.2); } }
         .pulse-dot { animation: pulse 2s ease-in-out infinite; }
         
+        @keyframes shufflerSlide {
+            0%, 30% { transform: translateY(0); }
+            33%, 63% { transform: translateY(-64px); }
+            66%, 96% { transform: translateY(-128px); }
+            100% { transform: translateY(0); }
+        }
+        .shuffler-text { animation: shufflerSlide 9s infinite; }
+        
         html { scroll-behavior: smooth; }
+        
+        .protocol-card { position: sticky; top: 0; height: 100vh; display: flex; align-items: center; justify-content: center; }
     </style>
 </head>
 <body>
-    <div id="root"></div>
+    <!-- Noise Overlay -->
     <div class="noise-overlay"></div>
     
-    <script type="text/babel">
-        const { useState, useEffect, useRef } = React;
-        const { ArrowRight, Check, Calendar, Activity, Zap } = lucide;
+    <!-- Navigation -->
+    <nav id="navbar" class="fixed top-6 left-1/2 -translate-x-1/2 z-50 transition-all duration-500 ease-out px-8 py-4 rounded-full bg-transparent">
+        <div class="flex items-center justify-between gap-12">
+            <div id="nav-logo" class="font-bold tracking-tight text-lg transition-colors text-[#F5F3EE]">Cyber Ronin Quest</div>
+            <div id="nav-links" class="hidden md:flex items-center gap-8 font-mono-data text-xs tracking-widest uppercase transition-colors text-[#F5F3EE]/80">
+                <a href="#features" class="hover:text-[#E63B2E] transition-colors">Features</a>
+                <a href="#philosophy" class="hover:text-[#E63B2E] transition-colors">Philosophy</a>
+                <a href="#protocol" class="hover:text-[#E63B2E] transition-colors">Protocol</a>
+                <a href="#access" class="hover:text-[#E63B2E] transition-colors">Access</a>
+            </div>
+            <button class="magnetic-btn px-6 py-2.5 rounded-full font-bold text-sm transition-all bg-[#E63B2E] text-[#F5F3EE] hover:bg-[#111111]">Join Waitlist</button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="hero" class="relative h-screen w-full overflow-hidden flex items-end bg-[#111111]">
+        <div class="absolute inset-0 z-0">
+            <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=2069&auto=format&fit=crop" 
+                 alt="Brutalist architecture" 
+                 class="w-full h-full object-cover opacity-60 grayscale" />
+            <div class="absolute inset-0 bg-gradient-to-t from-[#111111] via-[#111111]/80 to-transparent"></div>
+        </div>
+        <div class="relative z-10 w-full px-6 md:px-16 lg:px-24 pb-24 md:pb-32 max-w-7xl">
+            <div class="space-y-2">
+                <h1 class="hero-line-1 text-5xl md:text-7xl lg:text-8xl font-bold tracking-tight text-[#F5F3EE] leading-[0.9] uppercase opacity-0 translate-y-10">Master the</h1>
+                <h1 class="hero-line-2 font-drama italic text-6xl md:text-8xl lg:text-[10rem] text-[#E63B2E] leading-[0.9] ml-4 md:ml-12 opacity-0 translate-y-10">Chaos.</h1>
+            </div>
+            <p class="hero-sub mt-8 max-w-xl text-lg md:text-xl text-[#E8E4DD]/80 font-light leading-relaxed ml-4 md:ml-12 opacity-0 translate-y-8">AI-native production planning for film and broadcast. Schedule crews, track resources, and manage budgets with mechanical precision.</p>
+            <div class="hero-cta mt-10 ml-4 md:ml-12 flex items-center gap-6 opacity-0 translate-y-6">
+                <button class="magnetic-btn group px-8 py-4 bg-[#E63B2E] text-[#F5F3EE] rounded-full font-bold text-sm tracking-wide flex items-center gap-3 hover:bg-[#111111] border-2 border-[#E63B2E] hover:border-[#F5F3EE] transition-all">
+                    Join the Waitlist 
+                    <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+                </button>
+                <button class="text-[#F5F3EE]/60 hover:text-[#E63B2E] text-sm font-mono-data tracking-widest uppercase transition-colors">View Demo</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="relative py-32 px-6 md:px-16 lg:px-24 bg-[#F5F3EE]">
+        <div class="max-w-7xl mx-auto">
+            <div class="mb-16">
+                <span class="font-mono-data text-xs tracking-widest uppercase text-[#E63B2E] mb-4 block">[SYSTEM_MODULES]</span>
+                <h2 class="text-4xl md:text-5xl font-bold text-[#111111] mb-4 uppercase tracking-tight">Functional_Artifacts</h2>
+                <p class="text-[#111111]/60 max-w-xl font-mono-data text-sm">Three integrated modules that transform production chaos into orchestrated precision.</p>
+            </div>
+            
+            <div class="grid md:grid-cols-3 gap-8">
+                <!-- Shuffler Card -->
+                <div class="feature-card relative bg-[#E8E4DD] rounded-[2rem] p-8 md:p-10 overflow-hidden border border-[#111111]/10 shadow-2xl h-[400px] flex flex-col justify-between opacity-0 translate-y-10">
+                    <div class="absolute top-0 right-0 w-64 h-64 bg-[#E63B2E]/5 rounded-full blur-3xl -mr-32 -mt-32"></div>
+                    <div>
+                        <div class="flex items-center gap-3 mb-6">
+                            <div class="w-10 h-10 rounded-full bg-[#111111] flex items-center justify-center">
+                                <svg class="w-5 h-5 text-[#E63B2E]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                            </div>
+                            <span class="font-mono-data text-xs tracking-widest uppercase text-[#111111]/60">[SCHEDULER]</span>
+                        </div>
+                        <h3 class="text-2xl font-bold text-[#111111] mb-3 uppercase tracking-tight">Intelligent Shooting Schedules</h3>
+                        <p class="text-[#111111]/70 text-sm leading-relaxed font-mono-data">AI-generated day-out-of-days that adapt to talent availability, location constraints, and weather patterns in real-time.</p>
+                    </div>
+                    <div class="relative h-16 overflow-hidden mt-6 border-t-2 border-[#111111]/10 pt-4">
+                        <div class="shuffler-text absolute inset-0 flex flex-col">
+                            <div class="h-16 flex items-center"><span class="text-3xl font-drama italic text-[#E63B2E]">Pre-Production</span></div>
+                            <div class="h-16 flex items-center"><span class="text-3xl font-drama italic text-[#111111]/20">Principal Photography</span></div>
+                            <div class="h-16 flex items-center"><span class="text-3xl font-drama italic text-[#111111]/20">Post-Production</span></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Typewriter Card -->
+                <div class="feature-card relative bg-[#111111] rounded-[2rem] p-8 md:p-10 overflow-hidden border border-[#E63B2E]/20 shadow-2xl h-[400px] flex flex-col justify-between opacity-0 translate-y-10">
+                    <div class="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_50%_50%,_rgba(230,59,46,0.05)_0%,_transparent_70%)]"></div>
+                    <div class="relative z-10">
+                        <div class="flex items-center gap-3 mb-6">
+                            <div class="w-10 h-10 rounded-full bg-[#E63B2E]/20 flex items-center justify-center">
+                                <svg class="w-5 h-5 text-[#E63B2E]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <div class="w-2 h-2 bg-[#E63B2E] rounded-full pulse-dot"></div>
+                                <span class="font-mono-data text-xs tracking-widest uppercase text-[#E63B2E]">[LIVE_FEED]</span>
+                            </div>
+                        </div>
+                        <h3 class="text-2xl font-bold text-[#F5F3EE] mb-3 uppercase tracking-tight">Real-Time Resource Telemetry</h3>
+                        <p class="text-[#E8E4DD]/60 text-sm leading-relaxed mb-6 font-mono-data">Live monitoring of equipment, crew check-ins, and budget utilization across all units simultaneously.</p>
+                    </div>
+                    <div class="relative z-10 bg-[#1A1A1A] rounded-xl p-4 border border-[#E63B2E]/10 font-mono-data text-sm text-[#E63B2E]">
+                        <span class="text-[#E8E4DD]/40 mr-2">&gt;</span><span id="typewriter-text"></span><span class="cursor-blink inline-block w-2 h-4 bg-[#E63B2E] ml-1 align-middle"></span>
+                    </div>
+                </div>
+
+                <!-- Scheduler Card -->
+                <div class="feature-card relative bg-[#E8E4DD] rounded-[2rem] p-8 md:p-10 overflow-hidden border border-[#111111]/10 shadow-2xl h-[400px] flex flex-col justify-between opacity-0 translate-y-10">
+                    <div>
+                        <div class="flex items-center gap-3 mb-6">
+                            <div class="w-10 h-10 rounded-full bg-[#111111] flex items-center justify-center">
+                                <svg class="w-5 h-5 text-[#E63B2E]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+                            </div>
+                            <span class="font-mono-data text-xs tracking-widest uppercase text-[#111111]/60">[PROTOCOL]</span>
+                        </div>
+                        <h3 class="text-2xl font-bold text-[#111111] mb-3 uppercase tracking-tight">Automated Budget Protocols</h3>
+                        <p class="text-[#111111]/70 text-sm leading-relaxed font-mono-data">Dynamic cost tracking that predicts overruns before they happen and suggests optimization strategies.</p>
+                    </div>
+                    <div class="relative mt-6">
+                        <div class="grid grid-cols-7 gap-2" id="calendar-grid">
+                            <div class="calendar-day aspect-square rounded-lg flex items-center justify-center font-mono-data text-sm font-bold bg-[#111111]/5 text-[#111111]/40">S</div>
+                            <div class="calendar-day aspect-square rounded-lg flex items-center justify-center font-mono-data text-sm font-bold bg-[#111111]/5 text-[#111111]/40">M</div>
+                            <div class="calendar-day aspect-square rounded-lg flex items-center justify-center font-mono-data text-sm font-bold bg-[#111111]/5 text-[#111111]/40">T</div>
+                            <div class="calendar-day aspect-square rounded-lg flex items-center justify-center font-mono-data text-sm font-bold bg-[#111111]/5 text-[#111111]/40">W</div>
+                            <div class="calendar-day aspect-square rounded-lg flex items-center justify-center font-mono-data text-sm font-bold bg-[#111111]/5 text-[#111111]/40">T</div>
+                            <div class="calendar-day aspect-square rounded-lg flex items-center justify-center font-mono-data text-sm font-bold bg-[#111111]/5 text-[#111111]/40">F</div>
+                            <div class="calendar-day aspect-square rounded-lg flex items-center justify-center font-mono-data text-sm font-bold bg-[#111111]/5 text-[#111111]/40">S</div>
+                        </div>
+                        <div id="cursor-anim" class="absolute w-6 h-6 pointer-events-none transition-all duration-700 ease-in-out z-20 opacity-0">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" class="drop-shadow-lg"><path d="M3 3L10.07 19.97L12.58 12.58L19.97 10.07L3 3Z" fill="#111111" stroke="#E63B2E" stroke-width="2" stroke-linejoin="round"/></svg>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Philosophy Section -->
+    <section id="philosophy" class="relative py-32 px-6 md:px-16 lg:px-24 bg-[#111111] overflow-hidden">
+        <div class="absolute inset-0 opacity-30">
+            <img src="https://images.unsplash.com/photo-1518005052351-e49790027853?q=80&w=2000&auto=format&fit=crop" alt="Concrete" class="w-full h-full object-cover grayscale" />
+        </div>
+        <div class="absolute inset-0 bg-gradient-to-b from-[#111111] via-transparent to-[#111111]"></div>
+        <div class="relative z-10 max-w-6xl mx-auto">
+            <p class="philosophy-line text-xl md:text-2xl text-[#E8E4DD]/60 font-mono-data opacity-0 translate-y-10">Most production software focuses on: <span class="text-[#E8E4DD]/40">spreadsheets and manual data entry.</span></p>
+            <p class="philosophy-line text-4xl md:text-6xl lg:text-7xl font-bold text-[#F5F3EE] leading-tight uppercase tracking-tight mt-8 opacity-0 translate-y-10">We focus on: <span class="font-drama italic text-[#E63B2E] normal-case">raw control.</span></p>
+            <p class="philosophy-line text-lg md:text-xl text-[#E8E4DD]/70 max-w-2xl mt-8 leading-relaxed font-mono-data opacity-0 translate-y-10">Cyber Ronin Quest treats production as industrial engineering disguised as art. Our AI doesn't suggest—it executes. No decoration. Pure information density.</p>
+        </div>
+    </section>
+
+    <!-- Protocol Section -->
+    <section id="protocol" class="relative bg-[#F5F3EE]">
+        <div class="h-32 flex items-center justify-center">
+            <span class="font-mono-data text-xs tracking-widest uppercase text-[#E63B2E]">[THE_PROTOCOL]</span>
+        </div>
+        
+        <!-- Protocol Card 1 -->
+        <div class="protocol-card" style="z-index: 1;">
+            <div class="max-w-6xl w-full mx-6 md:mx-16 bg-[#E8E4DD] rounded-[3rem] p-8 md:p-16 shadow-2xl border-2 border-[#111111]/10 relative overflow-hidden protocol-inner opacity-0 translate-y-10">
+                <div class="grid md:grid-cols-2 gap-12 items-center">
+                    <div>
+                        <span class="font-mono-data text-6xl md:text-8xl text-[#111111]/10 font-bold block mb-4">01</span>
+                        <h3 class="text-3xl md:text-4xl font-bold text-[#111111] mb-4 uppercase tracking-tight">INGEST</h3>
+                        <p class="text-[#111111]/70 text-lg leading-relaxed font-mono-data">Import scripts, storyboards, and production documents. Our AI parses scene elements, locations, and cast requirements automatically, building the foundation of your production universe.</p>
+                    </div>
+                    <div class="relative h-64 md:h-80">
+                        <canvas id="helix-canvas" class="w-full h-full"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Protocol Card 2 -->
+        <div class="protocol-card" style="z-index: 2;">
+            <div class="max-w-6xl w-full mx-6 md:mx-16 bg-[#E8E4DD] rounded-[3rem] p-8 md:p-16 shadow-2xl border-2 border-[#111111]/10 relative overflow-hidden protocol-inner opacity-0 translate-y-10">
+                <div class="grid md:grid-cols-2 gap-12 items-center">
+                    <div>
+                        <span class="font-mono-data text-6xl md:text-8xl text-[#111111]/10 font-bold block mb-4">02</span>
+                        <h3 class="text-3xl md:text-4xl font-bold text-[#111111] mb-4 uppercase tracking-tight">OPTIMIZE</h3>
+                        <p class="text-[#111111]/70 text-lg leading-relaxed font-mono-data">The system generates millions of scheduling permutations, weighing travel times, talent contracts, location availability, and budget constraints to find the perfect production flow.</p>
+                    </div>
+                    <div class="relative h-64 md:h-80">
+                        <canvas id="scan-canvas" class="w-full h-full"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Protocol Card 3 -->
+        <div class="protocol-card" style="z-index: 3;">
+            <div class="max-w-6xl w-full mx-6 md:mx-16 bg-[#E8E4DD] rounded-[3rem] p-8 md:p-16 shadow-2xl border-2 border-[#111111]/10 relative overflow-hidden protocol-inner opacity-0 translate-y-10">
+                <div class="grid md:grid-cols-2 gap-12 items-center">
+                    <div>
+                        <span class="font-mono-data text-6xl md:text-8xl text-[#111111]/10 font-bold block mb-4">03</span>
+                        <h3 class="text-3xl md:text-4xl font-bold text-[#111111] mb-4 uppercase tracking-tight">EXECUTE</h3>
+                        <p class="text-[#111111]/70 text-lg leading-relaxed font-mono-data">Real-time adjustments as conditions change. Weather delays? Talent illness? The protocol recalculates instantly, suggesting alternatives that preserve your creative vision.</p>
+                    </div>
+                    <div class="relative h-64 md:h-80">
+                        <canvas id="wave-canvas" class="w-full h-full"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="h-32"></div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section id="access" class="relative py-32 px-6 md:px-16 lg:px-24 bg-[#F5F3EE]">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-16">
+                <span class="font-mono-data text-xs tracking-widest uppercase text-[#E63B2E] mb-4 block">[ACCESS_LEVELS]</span>
+                <h2 class="text-4xl md:text-5xl font-bold text-[#111111] mb-4 uppercase tracking-tight">Membership_Tiers</h2>
+                <p class="text-[#111111]/60 max-w-xl mx-auto font-mono-data text-sm">Choose the level of precision your production requires.</p>
+            </div>
+            <div class="grid md:grid-cols-3 gap-8">
+                <!-- Essential -->
+                <div class="pricing-card relative rounded-[2rem] p-8 md:p-10 flex flex-col bg-[#E8E4DD] text-[#111111] border-2 border-[#111111]/10 opacity-0 translate-y-10">
+                    <div class="mb-8">
+                        <h3 class="text-xl font-bold mb-2 font-mono-data">ESSENTIAL</h3>
+                        <div class="flex items-baseline gap-1">
+                            <span class="text-4xl font-bold">FREE</span>
+                            <span class="text-sm text-[#111111]/60 font-mono-data">_BETA</span>
+                        </div>
+                    </div>
+                    <ul class="space-y-4 mb-8 flex-grow">
+                        <li class="flex items-center gap-3 text-sm font-mono-data">
+                            <svg class="w-4 h-4 text-[#E63B2E]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/></svg>
+                            <span class="text-[#111111]/80">2 active projects</span>
+                        </li>
+                        <li class="flex items-center gap-3 text-sm font-mono-data">
+                            <svg class="w-4 h-4 text-[#E63B2E]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/></svg>
+                            <span class="text-[#111111]/80">5 team members</span>
+                        </li>
+                        <li class="flex items-center gap-3 text-sm font-mono-data">
+                            <svg class="w-4 h-4 text-[#E63B2E]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/></svg>
+                            <span class="text-[#111111]/80">Basic scheduling</span>
+                        </li>
+                        <li class="flex items-center gap-3 text-sm font-mono-data">
+                            <svg class="w-4 h-4 text-[#E63B2E]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/></svg>
+                            <span class="text-[#111111]/80">Email support</span>
+                        </li>
+                    </ul>
+                    <button class="w-full py-4 rounded-full font-bold text-sm tracking-wide magnetic-btn transition-all duration-300 uppercase bg-[#111111] text-[#F5F3EE] hover:bg-[#E63B2E]">JOIN_WAITLIST</button>
+                </div>
+
+                <!-- Performance -->
+                <div class="pricing-card relative rounded-[2rem] p-8 md:p-10 flex flex-col bg-[#111111] text-[#F5F3EE] scale-105 shadow-2xl ring-2 ring-[#E63B2E] ring-offset-4 ring-offset-[#F5F3EE] opacity-0 translate-y-10">
+                    <div class="absolute -top-4 left-1/2 -translate-x-1/2 bg-[#E63B2E] text-[#F5F3EE] px-4 py-1 rounded-full text-xs font-mono-data tracking-widest uppercase font-bold">RECOMMENDED</div>
+                    <div class="mb-8">
+                        <h3 class="text-xl font-bold mb-2 font-mono-data">PERFORMANCE</h3>
+                        <div class="flex items-baseline gap-1">
+                            <span class="text-4xl font-bold">$299</span>
+                            <span class="text-sm text-[#F5F3EE]/60 font-mono-data">/MONTH</span>
+                        </div>
+                    </div>
+                    <ul class="space-y-4 mb-8 flex-grow">
+                        <li class="flex items-center gap-3 text-sm font-mono-data">
+                            <svg class="w-4 h-4 text-[#E63B2E]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/></svg>
+                            <span class="text-[#F5F3EE]/80">Unlimited projects</span>
+                        </li>
+                        <li class="flex items-center gap-3 text-sm font-mono-data">
+                            <svg class="w-4 h-4 text-[#E63B2E]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/></svg>
+                            <span class="text-[#F5F3EE]/80">Unlimited team</span>
+                        </li>
+                        <li class="flex items-center gap-3 text-sm font-mono-data">
+                            <svg class="w-4 h-4 text-[#E63B2E]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/></svg>
+                            <span class="text-[#F5F3EE]/80">AI optimization</span>
+                        </li>
+                        <li class="flex items-center gap-3 text-sm font-mono-data">
+                            <svg class="w-4 h-4 text-[#E63B2E]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/></svg>
+                            <span class="text-[#F5F3EE]/80">Real-time telemetry</span>
+                        </li>
+                        <li class="flex items-center gap-3 text-sm font-mono-data">
+                            <svg class="w-4 h-4 text-[#E63B2E]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/></svg>
+                            <span class="text-[#F5F3EE]/80">Priority support</span>
+                        </li>
+                        <li class="flex items-center gap-3 text-sm font-mono-data">
+                            <svg class="w-4 h-4 text-[#E63B2E]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/></svg>
+                            <span class="text-[#F5F3EE]/80">API access</span>
+                        </li>
+                    </ul>
+                    <button class="w-full py-4 rounded-full font-bold text-sm tracking-wide magnetic-btn transition-all duration-300 uppercase bg-[#E63B2E] text-[#F5F3EE] hover:bg-[#F5F3EE] hover:text-[#111111]">REQUEST_ACCESS</button>
+                </div>
+
+                <!-- Enterprise -->
+                <div class="pricing-card relative rounded-[2rem] p-8 md:p-10 flex flex-col bg-[#E8E4DD] text-[#111111] border-2 border-[#111111]/10 opacity-0 translate-y-10">
+                    <div class="mb-8">
+                        <h3 class="text-xl font-bold mb-2 font-mono-data">ENTERPRISE</h3>
+                        <div class="flex items-baseline gap-1">
+                            <span class="text-4xl font-bold">CUSTOM</span>
+                        </div>
+                    </div>
+                    <ul class="space-y-4 mb-8 flex-grow">
+                        <li class="flex items-center gap-3 text-sm font-mono-data">
+                            <svg class="w-4 h-4 text-[#E63B2E]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/></svg>
+                            <span class="text-[#111111]/80">Dedicated infrastructure</span>
+                        </li>
+                        <li class="flex items-center gap-3 text-sm font-mono-data">
+                            <svg class="w-4 h-4 text-[#E63B2E]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/></svg>
+                            <span class="text-[#111111]/80">Custom AI training</span>
+                        </li>
+                        <li class="flex items-center gap-3 text-sm font-mono-data">
+                            <svg class="w-4 h-4 text-[#E63B2E]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/></svg>
+                            <span class="text-[#111111]/80">SLA guarantees</span>
+                        </li>
+                        <li class="flex items-center gap-3 text-sm font-mono-data">
+                            <svg class="w-4 h-4 text-[#E63B2E]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/></svg>
+                            <span class="text-[#111111]/80">On-premise option</span>
+                        </li>
+                        <li class="flex items-center gap-3 text-sm font-mono-data">
+                            <svg class="w-4 h-4 text-[#E63B2E]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/></svg>
+                            <span class="text-[#111111]/80">White-label available</span>
+                        </li>
+                        <li class="flex items-center gap-3 text-sm font-mono-data">
+                            <svg class="w-4 h-4 text-[#E63B2E]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/></svg>
+                            <span class="text-[#111111]/80">24/7 concierge</span>
+                        </li>
+                    </ul>
+                    <button class="w-full py-4 rounded-full font-bold text-sm tracking-wide magnetic-btn transition-all duration-300 uppercase bg-[#111111] text-[#F5F3EE] hover:bg-[#E63B2E]">CONTACT_SALES</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="relative bg-[#111111] rounded-t-[4rem] border-t-2 border-[#E63B2E]/20 pt-20 pb-8 px-6 md:px-16 lg:px-24">
+        <div class="max-w-7xl mx-auto">
+            <div class="grid md:grid-cols-4 gap-12 mb-16">
+                <div class="col-span-2">
+                    <h3 class="text-2xl font-bold text-[#F5F3EE] mb-4 uppercase tracking-tight">Cyber Ronin Quest</h3>
+                    <p class="text-[#E8E4DD]/60 max-w-sm mb-6 font-mono-data text-sm">Production Planning AI for Film & Broadcast. Raw precision for industrial-grade creativity.</p>
+                    <div class="flex items-center gap-2 font-mono-data text-xs text-[#E63B2E]">
+                        <div class="w-2 h-2 bg-[#E63B2E] rounded-full pulse-dot"></div>
+                        <span>SYSTEM_OPERATIONAL</span>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="font-mono-data text-xs tracking-widest uppercase text-[#E8E4DD]/40 mb-4">Navigation</h4>
+                    <ul class="space-y-3">
+                        <li><a href="#features" class="text-[#E8E4DD]/70 hover:text-[#E63B2E] transition-colors text-sm font-mono-data">Features</a></li>
+                        <li><a href="#philosophy" class="text-[#E8E4DD]/70 hover:text-[#E63B2E] transition-colors text-sm font-mono-data">Philosophy</a></li>
+                        <li><a href="#protocol" class="text-[#E8E4DD]/70 hover:text-[#E63B2E] transition-colors text-sm font-mono-data">Protocol</a></li>
+                        <li><a href="#access" class="text-[#E8E4DD]/70 hover:text-[#E63B2E] transition-colors text-sm font-mono-data">Access</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-mono-data text-xs tracking-widest uppercase text-[#E8E4DD]/40 mb-4">Legal</h4>
+                    <ul class="space-y-3">
+                        <li><a href="#" class="text-[#E8E4DD]/70 hover:text-[#E63B2E] transition-colors text-sm font-mono-data">Privacy_Policy</a></li>
+                        <li><a href="#" class="text-[#E8E4DD]/70 hover:text-[#E63B2E] transition-colors text-sm font-mono-data">Terms_of_Service</a></li>
+                        <li><a href="#" class="text-[#E8E4DD]/70 hover:text-[#E63B2E] transition-colors text-sm font-mono-data">Cookie_Policy</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="pt-8 border-t border-[#E8E4DD]/10 flex flex-col md:flex-row justify-between items-center gap-4">
+                <p class="text-[#E8E4DD]/40 text-xs font-mono-data">© 2026 Cyber Ronin Quest. All rights reserved.</p>
+                <p class="text-[#E8E4DD]/40 text-xs font-mono-data">DESIGNED_FOR_INDUSTRIAL_PRECISION</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Register GSAP ScrollTrigger
         gsap.registerPlugin(ScrollTrigger);
-        
-        const Navbar = () => {
-            const [scrolled, setScrolled] = useState(false);
-            useEffect(() => {
-                const handleScroll = () => setScrolled(window.scrollY > window.innerHeight * 0.8);
-                window.addEventListener('scroll', handleScroll, { passive: true });
-                return () => window.removeEventListener('scroll', handleScroll);
-            }, []);
-            
-            return (
-                <nav className={`fixed top-6 left-1/2 -translate-x-1/2 z-50 transition-all duration-500 ease-out px-8 py-4 rounded-full ${scrolled ? 'bg-[#F5F3EE]/90 backdrop-blur-xl border border-[#111111]/10 shadow-xl' : 'bg-transparent'}`}>
-                    <div className="flex items-center justify-between gap-12">
-                        <div className={`font-bold tracking-tight text-lg transition-colors ${scrolled ? 'text-[#111111]' : 'text-[#F5F3EE]'}`}>Cyber Ronin Quest</div>
-                        <div className={`hidden md:flex items-center gap-8 font-mono-data text-xs tracking-widest uppercase transition-colors ${scrolled ? 'text-[#111111]/70' : 'text-[#F5F3EE]/80'}`}>
-                            {['Features', 'Philosophy', 'Protocol', 'Access'].map(item => (
-                                <a key={item} href={`#${item.toLowerCase()}`} className="hover:text-[#E63B2E] transition-colors">{item}</a>
-                            ))}
-                        </div>
-                        <button className={`magnetic-btn px-6 py-2.5 rounded-full font-bold text-sm transition-all ${scrolled ? 'bg-[#111111] text-[#F5F3EE] hover:bg-[#E63B2E]' : 'bg-[#E63B2E] text-[#F5F3EE] hover:bg-[#111111]'}`}>Join Waitlist</button>
-                    </div>
-                </nav>
-            );
-        };
-        
-        const Hero = () => {
-            const heroRef = useRef(null);
-            useEffect(() => {
-                const ctx = gsap.context(() => {
-                    const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
-                    tl.from(".hero-line-1", { y: 40, opacity: 0, duration: 1, delay: 0.2 })
-                      .from(".hero-line-2", { y: 60, opacity: 0, duration: 1.2 }, "-=0.6")
-                      .from(".hero-sub", { y: 30, opacity: 0, duration: 0.8 }, "-=0.8")
-                      .from(".hero-cta", { y: 20, opacity: 0, duration: 0.6 }, "-=0.4");
-                }, heroRef);
-                return () => ctx.revert();
-            }, []);
-            
-            return (
-                <section ref={heroRef} className="relative h-[100dvh] w-full overflow-hidden flex items-end bg-[#111111]">
-                    <div className="absolute inset-0 z-0">
-                        <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=2069&auto=format&fit=crop" alt="Brutalist architecture" className="w-full h-full object-cover opacity-60 grayscale" />
-                        <div className="absolute inset-0 bg-gradient-to-t from-[#111111] via-[#111111]/80 to-transparent"></div>
-                    </div>
-                    <div className="relative z-10 w-full px-6 md:px-16 lg:px-24 pb-24 md:pb-32 max-w-7xl">
-                        <div className="space-y-2">
-                            <h1 className="hero-line-1 text-5xl md:text-7xl lg:text-8xl font-bold tracking-tight text-[#F5F3EE] leading-[0.9] uppercase">Master the</h1>
-                            <h1 className="hero-line-2 font-drama italic text-6xl md:text-8xl lg:text-[10rem] text-[#E63B2E] leading-[0.9] ml-4 md:ml-12">Chaos.</h1>
-                        </div>
-                        <p className="hero-sub mt-8 max-w-xl text-lg md:text-xl text-[#E8E4DD]/80 font-light leading-relaxed ml-4 md:ml-12">AI-native production planning for film and broadcast. Schedule crews, track resources, and manage budgets with mechanical precision.</p>
-                        <div className="hero-cta mt-10 ml-4 md:ml-12 flex items-center gap-6">
-                            <button className="magnetic-btn group px-8 py-4 bg-[#E63B2E] text-[#F5F3EE] rounded-full font-bold text-sm tracking-wide flex items-center gap-3 hover:bg-[#111111] border-2 border-[#E63B2E] hover:border-[#F5F3EE] transition-all">
-                                Join the Waitlist <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                            </button>
-                            <button className="text-[#F5F3EE]/60 hover:text-[#E63B2E] text-sm font-mono-data tracking-widest uppercase transition-colors">View Demo</button>
-                        </div>
-                    </div>
-                </section>
-            );
-        };
-        
-        const ShufflerCard = () => {
-            const [items] = useState(["Pre-Production", "Principal Photography", "Post-Production"]);
-            const [currentIndex, setCurrentIndex] = useState(0);
-            const cardRef = useRef(null);
-            
-            useEffect(() => {
-                const interval = setInterval(() => setCurrentIndex(p => (p + 1) % items.length), 3000);
-                return () => clearInterval(interval);
-            }, []);
-            
-            useEffect(() => {
-                const ctx = gsap.context(() => gsap.from(cardRef.current, { scrollTrigger: { trigger: cardRef.current, start: "top 80%" }, y: 40, opacity: 0, duration: 0.8, ease: "power3.out" }), cardRef);
-                return () => ctx.revert();
-            }, []);
-            
-            return (
-                <div ref={cardRef} className="relative bg-[#E8E4DD] rounded-[2rem] p-8 md:p-10 overflow-hidden border border-[#111111]/10 shadow-2xl h-[400px] flex flex-col justify-between">
-                    <div className="absolute top-0 right-0 w-64 h-64 bg-[#E63B2E]/5 rounded-full blur-3xl -mr-32 -mt-32"></div>
-                    <div>
-                        <div className="flex items-center gap-3 mb-6">
-                            <div className="w-10 h-10 rounded-full bg-[#111111] flex items-center justify-center"><Calendar className="w-5 h-5 text-[#E63B2E]" /></div>
-                            <span className="font-mono-data text-xs tracking-widest uppercase text-[#111111]/60">[SCHEDULER]</span>
-                        </div>
-                        <h3 className="text-2xl font-bold text-[#111111] mb-3 uppercase tracking-tight">Intelligent Shooting Schedules</h3>
-                        <p className="text-[#111111]/70 text-sm leading-relaxed font-mono-data">AI-generated day-out-of-days that adapt to talent availability, location constraints, and weather patterns in real-time.</p>
-                    </div>
-                    <div className="relative h-16 overflow-hidden mt-6 border-t-2 border-[#111111]/10 pt-4">
-                        <div className="absolute inset-0 flex flex-col transition-transform duration-500" style={{ transform: `translateY(-${currentIndex * 64}px)`, transitionTimingFunction: "cubic-bezier(0.34, 1.56, 0.64, 1)" }}>
-                            {items.map((item, idx) => (
-                                <div key={idx} className="h-16 flex items-center"><span className={`text-3xl font-drama italic ${idx === currentIndex ? 'text-[#E63B2E]' : 'text-[#111111]/20'}`}>{item}</span></div>
-                            ))}
-                        </div>
-                    </div>
-                </div>
-            );
-        };
-        
-        const TypewriterCard = () => {
-            const [displayText, setDisplayText] = useState("");
-            const [messageIndex, setMessageIndex] = useState(0);
-            const [charIndex, setCharIndex] = useState(0);
-            const cardRef = useRef(null);
-            const messages = ["CAM_UNIT_A: CHECKED_IN...", "LOC_PERMIT: APPROVED...", "TALENT_ARR: T-MINUS_2HRS...", "WX_ALERT: STAGE_B...", "BUDGET_DAILY: 94%_UTIL..."];
-            
-            useEffect(() => {
-                const currentMessage = messages[messageIndex];
-                if (charIndex < currentMessage.length) {
-                    const timeout = setTimeout(() => { setDisplayText(prev => prev + currentMessage[charIndex]); setCharIndex(charIndex + 1); }, 50);
-                    return () => clearTimeout(timeout);
-                } else {
-                    const timeout = setTimeout(() => { setDisplayText(""); setCharIndex(0); setMessageIndex(p => (p + 1) % messages.length); }, 2000);
-                    return () => clearTimeout(timeout);
+
+        // Navbar scroll effect
+        const navbar = document.getElementById('navbar');
+        const navLogo = document.getElementById('nav-logo');
+        const navLinks = document.getElementById('nav-links');
+
+        window.addEventListener('scroll', () => {
+            const scrolled = window.scrollY > window.innerHeight * 0.8;
+            if (scrolled) {
+                navbar.classList.remove('bg-transparent');
+                navbar.classList.add('bg-[#F5F3EE]/90', 'backdrop-blur-xl', 'border', 'border-[#111111]/10', 'shadow-xl');
+                navLogo.classList.remove('text-[#F5F3EE]');
+                navLogo.classList.add('text-[#111111]');
+                navLinks.classList.remove('text-[#F5F3EE]/80');
+                navLinks.classList.add('text-[#111111]/70');
+            } else {
+                navbar.classList.add('bg-transparent');
+                navbar.classList.remove('bg-[#F5F3EE]/90', 'backdrop-blur-xl', 'border', 'border-[#111111]/10', 'shadow-xl');
+                navLogo.classList.add('text-[#F5F3EE]');
+                navLogo.classList.remove('text-[#111111]');
+                navLinks.classList.add('text-[#F5F3EE]/80');
+                navLinks.classList.remove('text-[#111111]/70');
+            }
+        }, { passive: true });
+
+        // Hero animations
+        gsap.to('.hero-line-1', { opacity: 1, y: 0, duration: 1, delay: 0.2, ease: 'power3.out' });
+        gsap.to('.hero-line-2', { opacity: 1, y: 0, duration: 1.2, delay: 0.5, ease: 'power3.out' });
+        gsap.to('.hero-sub', { opacity: 1, y: 0, duration: 0.8, delay: 0.8, ease: 'power3.out' });
+        gsap.to('.hero-cta', { opacity: 1, y: 0, duration: 0.6, delay: 1, ease: 'power3.out' });
+
+        // Feature cards animation
+        gsap.utils.toArray('.feature-card').forEach((card, i) => {
+            gsap.to(card, {
+                scrollTrigger: { trigger: card, start: 'top 85%' },
+                opacity: 1, y: 0, duration: 0.8, delay: i * 0.1, ease: 'power3.out'
+            });
+        });
+
+        // Philosophy lines animation
+        gsap.utils.toArray('.philosophy-line').forEach((line, i) => {
+            gsap.to(line, {
+                scrollTrigger: { trigger: line, start: 'top 80%' },
+                opacity: 1, y: 0, duration: 1, delay: i * 0.15, ease: 'power3.out'
+            });
+        });
+
+        // Protocol cards animation
+        gsap.utils.toArray('.protocol-inner').forEach((card, i) => {
+            gsap.to(card, {
+                scrollTrigger: { trigger: card, start: 'top 75%' },
+                opacity: 1, y: 0, duration: 0.8, ease: 'power3.out'
+            });
+        });
+
+        // Pricing cards animation
+        gsap.utils.toArray('.pricing-card').forEach((card, i) => {
+            gsap.to(card, {
+                scrollTrigger: { trigger: card, start: 'top 85%' },
+                opacity: 1, y: 0, duration: 0.8, delay: i * 0.1, ease: 'power3.out'
+            });
+        });
+
+        // Typewriter effect
+        const typewriterMessages = ["CAM_UNIT_A: CHECKED_IN...", "LOC_PERMIT: APPROVED...", "TALENT_ARR: T-MINUS_2HRS...", "WX_ALERT: STAGE_B...", "BUDGET_DAILY: 94%_UTIL..."];
+        let messageIndex = 0, charIndex = 0, displayText = '';
+        const typewriterElement = document.getElementById('typewriter-text');
+
+        function typeWriter() {
+            const currentMessage = typewriterMessages[messageIndex];
+            if (charIndex < currentMessage.length) {
+                displayText += currentMessage[charIndex];
+                typewriterElement.textContent = displayText;
+                charIndex++;
+                setTimeout(typeWriter, 50);
+            } else {
+                setTimeout(() => {
+                    displayText = '';
+                    charIndex = 0;
+                    messageIndex = (messageIndex + 1) % typewriterMessages.length;
+                    typeWriter();
+                }, 2000);
+            }
+        }
+        typeWriter();
+
+        // Calendar animation
+        const calendarDays = document.querySelectorAll('.calendar-day');
+        const cursorAnim = document.getElementById('cursor-anim');
+        let currentDay = 0;
+
+        function animateCalendar() {
+            cursorAnim.style.opacity = '1';
+            cursorAnim.style.left = '4%';
+            cursorAnim.style.top = '0px';
+
+            setTimeout(() => {
+                cursorAnim.style.left = `${3 * (100/7) + 4}%`;
+                calendarDays[3].classList.remove('bg-[#111111]/5', 'text-[#111111]/40');
+                calendarDays[3].classList.add('bg-[#E63B2E]', 'text-[#F5F3EE]');
+            }, 800);
+
+            setTimeout(() => {
+                cursorAnim.style.left = `${6 * (100/7) + 4}%`;
+                cursorAnim.style.top = '80px';
+            }, 1600);
+
+            setTimeout(() => {
+                cursorAnim.style.opacity = '0';
+                calendarDays[3].classList.add('bg-[#111111]/5', 'text-[#111111]/40');
+                calendarDays[3].classList.remove('bg-[#E63B2E]', 'text-[#F5F3EE]');
+            }, 2400);
+        }
+        setInterval(animateCalendar, 4000);
+        animateCalendar();
+
+        // Canvas animations
+        function initHelixCanvas() {
+            const canvas = document.getElementById('helix-canvas');
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+            let time = 0, animationId;
+
+            function resize() {
+                canvas.width = canvas.offsetWidth * 2;
+                canvas.height = canvas.offsetHeight * 2;
+                ctx.scale(2, 2);
+            }
+            resize();
+            window.addEventListener('resize', resize);
+
+            function draw() {
+                const w = canvas.offsetWidth, h = canvas.offsetHeight;
+                ctx.clearRect(0, 0, w, h);
+                ctx.strokeStyle = 'rgba(230, 59, 46, 0.3)'; ctx.lineWidth = 2;
+                for (let i = 0; i < 3; i++) {
+                    ctx.beginPath();
+                    const radius = 40 + i * 25;
+                    ctx.arc(w/2, h/2, radius, 0, Math.PI * 2);
+                    ctx.stroke();
+                    const angle = time * 0.001 + (i * Math.PI / 3);
+                    const x = w/2 + Math.cos(angle) * radius;
+                    const y = h/2 + Math.sin(angle) * radius;
+                    ctx.fillStyle = '#E63B2E';
+                    ctx.beginPath();
+                    ctx.arc(x, y, 4, 0, Math.PI * 2);
+                    ctx.fill();
                 }
-            }, [charIndex, messageIndex]);
-            
-            useEffect(() => {
-                const ctx = gsap.context(() => gsap.from(cardRef.current, { scrollTrigger: { trigger: cardRef.current, start: "top 80%" }, y: 40, opacity: 0, duration: 0.8, delay: 0.1, ease: "power3.out" }), cardRef);
-                return () => ctx.revert();
-            }, []);
-            
-            return (
-                <div ref={cardRef} className="relative bg-[#111111] rounded-[2rem] p-8 md:p-10 overflow-hidden border border-[#E63B2E]/20 shadow-2xl h-[400px] flex flex-col justify-between">
-                    <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_50%_50%,_rgba(230,59,46,0.05)_0%,_transparent_70%)]"></div>
-                    <div className="relative z-10">
-                        <div className="flex items-center gap-3 mb-6">
-                            <div className="w-10 h-10 rounded-full bg-[#E63B2E]/20 flex items-center justify-center"><Activity className="w-5 h-5 text-[#E63B2E]" /></div>
-                            <div className="flex items-center gap-2"><div className="w-2 h-2 bg-[#E63B2E] rounded-full pulse-dot"></div><span className="font-mono-data text-xs tracking-widest uppercase text-[#E63B2E]">[LIVE_FEED]</span></div>
-                        </div>
-                        <h3 className="text-2xl font-bold text-[#F5F3EE] mb-3 uppercase tracking-tight">Real-Time Resource Telemetry</h3>
-                        <p className="text-[#E8E4DD]/60 text-sm leading-relaxed mb-6 font-mono-data">Live monitoring of equipment, crew check-ins, and budget utilization across all units simultaneously.</p>
-                    </div>
-                    <div className="relative z-10 bg-[#1A1A1A] rounded-xl p-4 border border-[#E63B2E]/10 font-mono-data text-sm text-[#E63B2E]">
-                        <span className="text-[#E8E4DD]/40 mr-2">&gt;</span>{displayText}<span className="cursor-blink inline-block w-2 h-4 bg-[#E63B2E] ml-1 align-middle"></span>
-                    </div>
-                </div>
-            );
-        };
-        
-        const SchedulerCard = () => {
-            const [activeDay, setActiveDay] = useState(null);
-            const [cursorPos, setCursorPos] = useState({ x: 0, y: 0 });
-            const [showCursor, setShowCursor] = useState(false);
-            const cardRef = useRef(null);
-            const days = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
-            
-            useEffect(() => {
-                const sequence = async () => {
-                    setShowCursor(true);
-                    await new Promise(r => setTimeout(r, 500));
-                    setCursorPos({ x: 3, y: 0 });
-                    await new Promise(r => setTimeout(r, 800));
-                    setActiveDay(3);
-                    await new Promise(r => setTimeout(r, 600));
-                    setCursorPos({ x: 6, y: 1 });
-                    await new Promise(r => setTimeout(r, 800));
-                    setShowCursor(false);
-                    setActiveDay(null);
-                };
-                const interval = setInterval(sequence, 4000);
-                sequence();
-                return () => clearInterval(interval);
-            }, []);
-            
-            useEffect(() => {
-                const ctx = gsap.context(() => gsap.from(cardRef.current, { scrollTrigger: { trigger: cardRef.current, start: "top 80%" }, y: 40, opacity: 0, duration: 0.8, delay: 0.2, ease: "power3.out" }), cardRef);
-                return () => ctx.revert();
-            }, []);
-            
-            return (
-                <div ref={cardRef} className="relative bg-[#E8E4DD] rounded-[2rem] p-8 md:p-10 overflow-hidden border border-[#111111]/10 shadow-2xl h-[400px] flex flex-col justify-between">
-                    <div>
-                        <div className="flex items-center gap-3 mb-6">
-                            <div className="w-10 h-10 rounded-full bg-[#111111] flex items-center justify-center"><Zap className="w-5 h-5 text-[#E63B2E]" /></div>
-                            <span className="font-mono-data text-xs tracking-widest uppercase text-[#111111]/60">[PROTOCOL]</span>
-                        </div>
-                        <h3 className="text-2xl font-bold text-[#111111] mb-3 uppercase tracking-tight">Automated Budget Protocols</h3>
-                        <p className="text-[#111111]/70 text-sm leading-relaxed font-mono-data">Dynamic cost tracking that predicts overruns before they happen and suggests optimization strategies.</p>
-                    </div>
-                    <div className="relative mt-6">
-                        <div className="grid grid-cols-7 gap-2">
-                            {days.map((day, idx) => (
-                                <div key={idx} className={`aspect-square rounded-lg flex items-center justify-center font-mono-data text-sm font-bold transition-all duration-300 ${activeDay === idx ? 'bg-[#E63B2E] text-[#F5F3EE]' : 'bg-[#111111]/5 text-[#111111]/40'}`}>{day}</div>
-                            ))}
-                        </div>
-                        {showCursor && (
-                            <div className="absolute w-6 h-6 pointer-events-none transition-all duration-700 ease-in-out z-20" style={{ left: `${cursorPos.x * (100/7) + 4}%`, top: `${cursorPos.y * 80}px`, transform: 'translate(-50%, -50%)' }}>
-                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" className="drop-shadow-lg"><path d="M3 3L10.07 19.97L12.58 12.58L19.97 10.07L3 3Z" fill="#111111" stroke="#E63B2E" strokeWidth="2" strokeLinejoin="round"/></svg>
-                                {cursorPos.y === 1 && <div className="absolute -bottom-8 left-1/2 -translate-x-1/2 bg-[#111111] text-[#E63B2E] text-xs font-mono-data px-2 py-1 rounded whitespace-nowrap">EXECUTE</div>}
-                            </div>
-                        )}
-                    </div>
-                </div>
-            );
-        };
-        
-        const Features = () => (
-            <section id="features" className="relative py-32 px-6 md:px-16 lg:px-24 bg-[#F5F3EE]">
-                <div className="max-w-7xl mx-auto">
-                    <div className="mb-16">
-                        <span className="font-mono-data text-xs tracking-widest uppercase text-[#E63B2E] mb-4 block">[SYSTEM_MODULES]</span>
-                        <h2 className="text-4xl md:text-5xl font-bold text-[#111111] mb-4 uppercase tracking-tight">Functional_Artifacts</h2>
-                        <p className="text-[#111111]/60 max-w-xl font-mono-data text-sm">Three integrated modules that transform production chaos into orchestrated precision.</p>
-                    </div>
-                    <div className="grid md:grid-cols-3 gap-8">
-                        <ShufflerCard />
-                        <TypewriterCard />
-                        <SchedulerCard />
-                    </div>
-                </div>
-            </section>
-        );
-        
-        const Philosophy = () => {
-            const sectionRef = useRef(null);
-            useEffect(() => {
-                const ctx = gsap.context(() => gsap.from(".philosophy-line", { scrollTrigger: { trigger: sectionRef.current, start: "top 60%" }, y: 40, opacity: 0, duration: 1, stagger: 0.15, ease: "power3.out" }), sectionRef);
-                return () => ctx.revert();
-            }, []);
-            
-            return (
-                <section id="philosophy" ref={sectionRef} className="relative py-32 px-6 md:px-16 lg:px-24 bg-[#111111] overflow-hidden">
-                    <div className="absolute inset-0 opacity-30"><img src="https://images.unsplash.com/photo-1518005052351-e49790027853?q=80&w=2000&auto=format&fit=crop" alt="Concrete" className="w-full h-full object-cover grayscale" /></div>
-                    <div className="absolute inset-0 bg-gradient-to-b from-[#111111] via-transparent to-[#111111]"></div>
-                    <div className="relative z-10 max-w-6xl mx-auto">
-                        <p className="philosophy-line text-xl md:text-2xl text-[#E8E4DD]/60 font-mono-data">Most production software focuses on: <span className="text-[#E8E4DD]/40">spreadsheets and manual data entry.</span></p>
-                        <p className="philosophy-line text-4xl md:text-6xl lg:text-7xl font-bold text-[#F5F3EE] leading-tight uppercase tracking-tight mt-8">We focus on: <span className="font-drama italic text-[#E63B2E] normal-case">raw control.</span></p>
-                        <p className="philosophy-line text-lg md:text-xl text-[#E8E4DD]/70 max-w-2xl mt-8 leading-relaxed font-mono-data">Cyber Ronin Quest treats production as industrial engineering disguised as art. Our AI doesn't suggest—it executes. No decoration. Pure information density.</p>
-                    </div>
-                </section>
-            );
-        };
-        
-        const ProtocolCard = ({ number, title, description, animationType, index }) => {
-            const cardRef = useRef(null);
-            const canvasRef = useRef(null);
-            
-            useEffect(() => {
-                const canvas = canvasRef.current;
-                if (!canvas) return;
-                const ctx = canvas.getContext('2d');
-                let animationId, time = 0;
-                
-                const resize = () => { canvas.width = canvas.offsetWidth * 2; canvas.height = canvas.offsetHeight * 2; ctx.scale(2, 2); };
-                resize();
-                window.addEventListener('resize', resize);
-                
-                const draw = () => {
-                    const w = canvas.offsetWidth, h = canvas.offsetHeight;
-                    ctx.clearRect(0, 0, w, h);
-                    
-                    if (animationType === 'helix') {
-                        ctx.strokeStyle = 'rgba(230, 59, 46, 0.3)'; ctx.lineWidth = 2;
-                        for (let i = 0; i < 3; i++) {
-                            ctx.beginPath(); const radius = 40 + i * 25; ctx.arc(w/2, h/2, radius, 0, Math.PI * 2); ctx.stroke();
-                            const angle = time * 0.001 + (i * Math.PI / 3);
-                            const x = w/2 + Math.cos(angle) * radius, y = h/2 + Math.sin(angle) * radius;
-                            ctx.fillStyle = '#E63B2E'; ctx.beginPath(); ctx.arc(x, y, 4, 0, Math.PI * 2); ctx.fill();
-                        }
-                    } else if (animationType === 'scan') {
-                        ctx.fillStyle = 'rgba(230, 59, 46, 0.1)';
-                        for (let x = 20; x < w; x += 30) for (let y = 20; y < h; y += 30) ctx.fillRect(x-1, y-1, 2, 2);
-                        const scanX = 20 + (time * 0.1) % (w - 40);
-                        ctx.strokeStyle = '#E63B2E'; ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(scanX, 0); ctx.lineTo(scanX, h); ctx.stroke();
-                        const gradient = ctx.createLinearGradient(scanX - 20, 0, scanX + 20, 0);
-                        gradient.addColorStop(0, 'rgba(230, 59, 46, 0)'); gradient.addColorStop(0.5, 'rgba(230, 59, 46, 0.3)'); gradient.addColorStop(1, 'rgba(230, 59, 46, 0)');
-                        ctx.fillStyle = gradient; ctx.fillRect(scanX - 20, 0, 40, h);
-                    } else if (animationType === 'wave') {
-                        ctx.strokeStyle = '#E63B2E'; ctx.lineWidth = 3; ctx.beginPath();
-                        for (let x = 0; x < w; x++) { const y = h/2 + Math.sin((x + time) * 0.02) * 30 * Math.sin(time * 0.001); if (x === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y); }
-                        ctx.stroke();
-                        ctx.strokeStyle = 'rgba(230, 59, 46, 0.3)'; ctx.beginPath();
-                        for (let x = 0; x < w; x++) { const y = h/2 + Math.cos((x + time) * 0.015) * 20; if (x === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y); }
-                        ctx.stroke();
+                time += 16;
+                animationId = requestAnimationFrame(draw);
+            }
+            draw();
+        }
+
+        function initScanCanvas() {
+            const canvas = document.getElementById('scan-canvas');
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+            let time = 0, animationId;
+
+            function resize() {
+                canvas.width = canvas.offsetWidth * 2;
+                canvas.height = canvas.offsetHeight * 2;
+                ctx.scale(2, 2);
+            }
+            resize();
+            window.addEventListener('resize', resize);
+
+            function draw() {
+                const w = canvas.offsetWidth, h = canvas.offsetHeight;
+                ctx.clearRect(0, 0, w, h);
+                ctx.fillStyle = 'rgba(230, 59, 46, 0.1)';
+                for (let x = 20; x < w; x += 30) {
+                    for (let y = 20; y < h; y += 30) {
+                        ctx.fillRect(x-1, y-1, 2, 2);
                     }
-                    time += 16; animationId = requestAnimationFrame(draw);
-                };
-                draw();
-                return () => { window.removeEventListener('resize', resize); cancelAnimationFrame(animationId); };
-            }, [animationType]);
-            
-            return (
-                <div ref={cardRef} className="protocol-card h-screen w-full flex items-center justify-center sticky top-0" style={{ zIndex: index }}>
-                    <div className="max-w-6xl w-full mx-6 md:mx-16 bg-[#E8E4DD] rounded-[3rem] p-8 md:p-16 shadow-2xl border-2 border-[#111111]/10 relative overflow-hidden">
-                        <div className="grid md:grid-cols-2 gap-12 items-center">
-                            <div>
-                                <span className="font-mono-data text-6xl md:text-8xl text-[#111111]/10 font-bold block mb-4">0{number}</span>
-                                <h3 className="text-3xl md:text-4xl font-bold text-[#111111] mb-4 uppercase tracking-tight">{title}</h3>
-                                <p className="text-[#111111]/70 text-lg leading-relaxed font-mono-data">{description}</p>
-                            </div>
-                            <div className="relative h-64 md:h-80"><canvas ref={canvasRef} className="w-full h-full" style={{ width: '100%', height: '100%' }} /></div>
-                        </div>
-                    </div>
-                </div>
-            );
-        };
-        
-        const Protocol = () => {
-            const sectionRef = useRef(null);
-            useEffect(() => {
-                const cards = gsap.utils.toArray('.protocol-card');
-                const ctx = gsap.context(() => {
-                    cards.forEach((card, i) => {
-                        if (i < cards.length - 1) {
-                            ScrollTrigger.create({ trigger: card, start: "top top", end: "bottom top", pin: true, pinSpacing: false, onUpdate: (self) => {
-                                const progress = self.progress;
-                                gsap.set(card, { scale: 1 - (progress * 0.1), filter: `blur(${progress * 20}px)`, opacity: 1 - (progress * 0.5) });
-                            }});
-                        }
-                    });
-                }, sectionRef);
-                return () => ctx.revert();
-            }, []);
-            
-            return (
-                <section id="protocol" ref={sectionRef} className="relative bg-[#F5F3EE]">
-                    <div className="h-32 flex items-center justify-center"><span className="font-mono-data text-xs tracking-widest uppercase text-[#E63B2E]">[THE_PROTOCOL]</span></div>
-                    <ProtocolCard number={1} title="INGEST" description="Import scripts, storyboards, and production documents. Our AI parses scene elements, locations, and cast requirements automatically, building the foundation of your production universe." animationType="helix" index={1} />
-                    <ProtocolCard number={2} title="OPTIMIZE" description="The system generates millions of scheduling permutations, weighing travel times, talent contracts, location availability, and budget constraints to find the perfect production flow." animationType="scan" index={2} />
-                    <ProtocolCard number={3} title="EXECUTE" description="Real-time adjustments as conditions change. Weather delays? Talent illness? The protocol recalculates instantly, suggesting alternatives that preserve your creative vision." animationType="wave" index={3} />
-                    <div className="h-32"></div>
-                </section>
-            );
-        };
-        
-        const Pricing = () => {
-            const sectionRef = useRef(null);
-            useEffect(() => {
-                const ctx = gsap.context(() => gsap.from(".pricing-card", { scrollTrigger: { trigger: sectionRef.current, start: "top 70%" }, y: 60, opacity: 0, duration: 0.8, stagger: 0.15, ease: "power3.out" }), sectionRef);
-                return () => ctx.revert();
-            }, []);
-            
-            const plans = [
-                { name: "ESSENTIAL", price: "FREE", period: "_BETA", features: ["2 active projects", "5 team members", "Basic scheduling", "Email support"], cta: "JOIN_WAITLIST", featured: false },
-                { name: "PERFORMANCE", price: "$299", period: "/MONTH", features: ["Unlimited projects", "Unlimited team", "AI optimization", "Real-time telemetry", "Priority support", "API access"], cta: "REQUEST_ACCESS", featured: true },
-                { name: "ENTERPRISE", price: "CUSTOM", period: "", features: ["Dedicated infrastructure", "Custom AI training", "SLA guarantees", "On-premise option", "White-label available", "24/7 concierge"], cta: "CONTACT_SALES", featured: false }
-            ];
-            
-            return (
-                <section id="access" ref={sectionRef} className="relative py-32 px-6 md:px-16 lg:px-24 bg-[#F5F3EE]">
-                    <div className="max-w-7xl mx-auto">
-                        <div className="text-center mb-16">
-                            <span className="font-mono-data text-xs tracking-widest uppercase text-[#E63B2E] mb-4 block">[ACCESS_LEVELS]</span>
-                            <h2 className="text-4xl md:text-5xl font-bold text-[#111111] mb-4 uppercase tracking-tight">Membership_Tiers</h2>
-                            <p className="text-[#111111]/60 max-w-xl mx-auto font-mono-data text-sm">Choose the level of precision your production requires.</p>
-                        </div>
-                        <div className="grid md:grid-cols-3 gap-8">
-                            {plans.map((plan, idx) => (
-                                <div key={idx} className={`pricing-card relative rounded-[2rem] p-8 md:p-10 flex flex-col ${plan.featured ? 'bg-[#111111] text-[#F5F3EE] scale-105 shadow-2xl ring-2 ring-[#E63B2E] ring-offset-4 ring-offset-[#F5F3EE]' : 'bg-[#E8E4DD] text-[#111111] border-2 border-[#111111]/10'}`}>
-                                    {plan.featured && <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-[#E63B2E] text-[#F5F3EE] px-4 py-1 rounded-full text-xs font-mono-data tracking-widest uppercase font-bold">RECOMMENDED</div>}
-                                    <div className="mb-8">
-                                        <h3 className="text-xl font-bold mb-2 font-mono-data">{plan.name}</h3>
-                                        <div className="flex items-baseline gap-1"><span className="text-4xl font-bold">{plan.price}</span><span className={`text-sm ${plan.featured ? 'text-[#F5F3EE]/60' : 'text-[#111111]/60'} font-mono-data`}>{plan.period}</span></div>
-                                    </div>
-                                    <ul className="space-y-4 mb-8 flex-grow">
-                                        {plan.features.map((feature, fidx) => (
-                                            <li key={fidx} className="flex items-center gap-3 text-sm font-mono-data"><Check className="w-4 h-4 text-[#E63B2E]" /><span className={plan.featured ? 'text-[#F5F3EE]/80' : 'text-[#111111]/80'}>{feature}</span></li>
-                                        ))}
-                                    </ul>
-                                    <button className={`w-full py-4 rounded-full font-bold text-sm tracking-wide magnetic-btn transition-all duration-300 uppercase ${plan.featured ? 'bg-[#E63B2E] text-[#F5F3EE] hover:bg-[#F5F3EE] hover:text-[#111111]' : 'bg-[#111111] text-[#F5F3EE] hover:bg-[#E63B2E]'}`}>{plan.cta}</button>
-                                </div>
-                            ))}
-                        </div>
-                    </div>
-                </section>
-            );
-        };
-        
-        const Footer = () => (
-            <footer className="relative bg-[#111111] rounded-t-[4rem] border-t-2 border-[#E63B2E]/20 pt-20 pb-8 px-6 md:px-16 lg:px-24">
-                <div className="max-w-7xl mx-auto">
-                    <div className="grid md:grid-cols-4 gap-12 mb-16">
-                        <div className="col-span-2">
-                            <h3 className="text-2xl font-bold text-[#F5F3EE] mb-4 uppercase tracking-tight">Cyber Ronin Quest</h3>
-                            <p className="text-[#E8E4DD]/60 max-w-sm mb-6 font-mono-data text-sm">Production Planning AI for Film & Broadcast. Raw precision for industrial-grade creativity.</p>
-                            <div className="flex items-center gap-2 font-mono-data text-xs text-[#E63B2E]"><div className="w-2 h-2 bg-[#E63B2E] rounded-full pulse-dot"></div><span>SYSTEM_OPERATIONAL</span></div>
-                        </div>
-                        <div>
-                            <h4 className="font-mono-data text-xs tracking-widest uppercase text-[#E8E4DD]/40 mb-4">Navigation</h4>
-                            <ul className="space-y-3">{['Features', 'Philosophy', 'Protocol', 'Access'].map(item => <li key={item}><a href={`#${item.toLowerCase()}`} className="text-[#E8E4DD]/70 hover:text-[#E63B2E] transition-colors text-sm font-mono-data">{item}</a></li>)}</ul>
-                        </div>
-                        <div>
-                            <h4 className="font-mono-data text-xs tracking-widest uppercase text-[#E8E4DD]/40 mb-4">Legal</h4>
-                            <ul className="space-y-3">{['Privacy_Policy', 'Terms_of_Service', 'Cookie_Policy'].map(item => <li key={item}><a href="#" className="text-[#E8E4DD]/70 hover:text-[#E63B2E] transition-colors text-sm font-mono-data">{item}</a></li>)}</ul>
-                        </div>
-                    </div>
-                    <div className="pt-8 border-t border-[#E8E4DD]/10 flex flex-col md:flex-row justify-between items-center gap-4">
-                        <p className="text-[#E8E4DD]/40 text-xs font-mono-data">© 2026 Cyber Ronin Quest. All rights reserved.</p>
-                        <p className="text-[#E8E4DD]/40 text-xs font-mono-data">DESIGNED_FOR_INDUSTRIAL_PRECISION</p>
-                    </div>
-                </div>
-            </footer>
-        );
-        
-        const App = () => {
-            useEffect(() => { lucide.createIcons(); }, []);
-            return (
-                <div className="relative bg-[#F5F3EE] min-h-screen">
-                    <Navbar />
-                    <Hero />
-                    <Features />
-                    <Philosophy />
-                    <Protocol />
-                    <Pricing />
-                    <Footer />
-                </div>
-            );
-        };
-        
-        ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+                }
+                const scanX = 20 + (time * 0.1) % (w - 40);
+                ctx.strokeStyle = '#E63B2E';
+                ctx.lineWidth = 2;
+                ctx.beginPath();
+                ctx.moveTo(scanX, 0);
+                ctx.lineTo(scanX, h);
+                ctx.stroke();
+                const gradient = ctx.createLinearGradient(scanX - 20, 0, scanX + 20, 0);
+                gradient.addColorStop(0, 'rgba(230, 59, 46, 0)');
+                gradient.addColorStop(0.5, 'rgba(230, 59, 46, 0.3)');
+                gradient.addColorStop(1, 'rgba(230, 59, 46, 0)');
+                ctx.fillStyle = gradient;
+                ctx.fillRect(scanX - 20, 0, 40, h);
+                time += 16;
+                animationId = requestAnimationFrame(draw);
+            }
+            draw();
+        }
+
+        function initWaveCanvas() {
+            const canvas = document.getElementById('wave-canvas');
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+            let time = 0, animationId;
+
+            function resize() {
+                canvas.width = canvas.offsetWidth * 2;
+                canvas.height = canvas.offsetHeight * 2;
+                ctx.scale(2, 2);
+            }
+            resize();
+            window.addEventListener('resize', resize);
+
+            function draw() {
+                const w = canvas.offsetWidth, h = canvas.offsetHeight;
+                ctx.clearRect(0, 0, w, h);
+                ctx.strokeStyle = '#E63B2E';
+                ctx.lineWidth = 3;
+                ctx.beginPath();
+                for (let x = 0; x < w; x++) {
+                    const y = h/2 + Math.sin((x + time) * 0.02) * 30 * Math.sin(time * 0.001);
+                    if (x === 0) ctx.moveTo(x, y);
+                    else ctx.lineTo(x, y);
+                }
+                ctx.stroke();
+                ctx.strokeStyle = 'rgba(230, 59, 46, 0.3)';
+                ctx.beginPath();
+                for (let x = 0; x < w; x++) {
+                    const y = h/2 + Math.cos((x + time) * 0.015) * 20;
+                    if (x === 0) ctx.moveTo(x, y);
+                    else ctx.lineTo(x, y);
+                }
+                ctx.stroke();
+                time += 16;
+                animationId = requestAnimationFrame(draw);
+            }
+            draw();
+        }
+
+        // Initialize canvas animations when visible
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    if (entry.target.id === 'helix-canvas') initHelixCanvas();
+                    if (entry.target.id === 'scan-canvas') initScanCanvas();
+                    if (entry.target.id === 'wave-canvas') initWaveCanvas();
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('canvas').forEach(canvas => observer.observe(canvas));
     </script>
 </body>
 </html>
